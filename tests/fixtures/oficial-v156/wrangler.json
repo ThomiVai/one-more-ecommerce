@@ -1,0 +1,18 @@
+{
+  "name": "one-more-suplementos",
+  "compatibility_date": "2026-08-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "YOUR_D1_DATABASE_NAME",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "pages_build_output_dir": ".",
+  "r2_buckets": [
+    {
+      "binding": "PRODUCT_IMAGES",
+      "bucket_name": "YOUR_R2_BUCKET_NAME"
+    }
+  ]
+}

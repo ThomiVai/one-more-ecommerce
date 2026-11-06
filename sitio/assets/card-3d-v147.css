@@ -1,0 +1,20 @@
+/* 3D solo en las cuatro ofertas. El catálogo conserva su comportamiento. */
+.om147-perspective{position:relative;perspective:1000px;min-width:0;display:flex;isolation:isolate}
+.om147-perspective:hover{z-index:2}
+.om144-home .star-offer.om147-card{width:100%;flex:1;overflow:visible;transform-style:preserve-3d;transform:rotateX(var(--om147-rx,0deg)) rotateY(var(--om147-ry,0deg));translate:0;transition:transform .25s ease-out,box-shadow .25s ease;isolation:auto}
+.om144-home .om147-card .star-offer-photo{border-radius:inherit;transform-style:preserve-3d}
+.om144-home .om147-card .star-offer-image{display:block;border-radius:4px 4px 0 0;transform:translateZ(0);transition:transform .3s ease}
+.om144-home .om147-card .star-offer-copy{border-radius:0 0 4px 4px;transform:translateZ(0);transition:transform .3s ease;transform-style:preserve-3d}
+.om144-home .om147-card .star-offer-label{transform:translateZ(0);transition:transform .3s ease}
+.om144-home .om147-card[data-om147-tilted=true]{box-shadow:0 22px 40px #0004}
+.om144-home .om147-card[data-om147-tilted=true] .star-offer-image{transform:translateZ(36px)}
+.om144-home .om147-card[data-om147-tilted=true] .star-offer-copy{transform:translateZ(16px)}
+.om144-home .om147-card[data-om147-tilted=true] .star-offer-label{transform:translateZ(44px)}
+.om144-home .om147-card .om144-photo{border-radius:inherit}
+.om144-home.paused .om147-card,.om144-home.paused .om147-card .star-offer-image,.om144-home.paused .om147-card .star-offer-copy,.om144-home.paused .om147-card .star-offer-label{transform:none!important;transition:none!important}
+@media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){
+ .om144-home .om147-card,.om144-home .om147-card .star-offer-image,.om144-home .om147-card .star-offer-copy,.om144-home .om147-card .star-offer-label{transform:none!important;transition:none!important}
+}
+/* Todas las marcas mantienen alineadas las dos líneas. */
+.om144-home .om146-wordmark{min-height:49px}
+@media(max-width:700px){.om144-home .om146-wordmark{min-height:39px}}

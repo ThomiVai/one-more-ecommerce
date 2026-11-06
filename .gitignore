@@ -1,0 +1,32 @@
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+!.env.example
+
+# Configuración real de Cloudflare
+sitio/wrangler.json
+
+# Resultados y archivos locales
+playwright-report/
+test-results/
+*.log
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Respaldos, auditorías y exportaciones operativas
+RESPALDO_ANTES_*/
+respaldo-*.sql
+*-backup.sql
+AUDITORIA_*
+PRUEBAS_*.txt
+PRUEBAS_*.json
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

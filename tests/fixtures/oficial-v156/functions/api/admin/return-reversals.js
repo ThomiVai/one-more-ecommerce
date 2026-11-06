@@ -1,0 +1,18 @@
+import {json,check,allowOrigin} from '../_utils.js';
+import {loadInventory} from '../_catalog.js';
+import {operation,OperationError,assertion,stockGuard,deploymentOnly} from './_operations.js';
+import {validDate,today,validKey} from './_settlements.js';
+import {reversalPlan,planStamp} from './_return-reversal.js';
+export async function onRequestGet({request,env}){const denied=await check(request,env);if(denied)return denied;const host=deploymentOnly(request);if(host)return host;const q=new URL(request.url).searchParams,type=q.get('type'),id=q.get('id');if(!['sale','purchase'].includes(type)||!/^[\w-]{2,100}$/.test(id||''))return json({error:'Referencia inválida'},400);try{const plan=await reversalPlan(env,await loadInventory(request,env),type,id);return json({plan,stamp:planStamp(plan)})}catch(e){return json({error:e.message||'No se pudo revisar.'},e.status||503)}}
+export async function onRequestPost({request,env}){
+ const denied=await check(request,env);if(denied)return denied;if(!allowOrigin(request,env))return json({error:'Origen inválido'},403);
+ let b;try{b=await request.json()}catch{return json({error:'JSON inválido'},400)}
+ if(!b||!['sale','purchase'].includes(b.record_type)||typeof b.return_id!=='string'||!/^[\w-]{2,100}$/.test(b.return_id)||!validKey(b)||!validDate(b.reversed_at)||b.reversed_at>today()||typeof b.reason!=='string'||b.reason.trim().length<3||b.reason.trim().length>300||b.confirmed!==true||typeof b.expected_plan!=='string'||b.expected_plan.length>50000)return json({error:'Revisá la devolución, la fecha y el motivo, y confirmá la compensación.'},400);
+ return operation(request,env,'return-reversal',b,async(state,key,actor)=>{
+  const plan=await reversalPlan(env,state,b.record_type,b.return_id);if(b.expected_plan!==planStamp(plan))throw new OperationError('El stock o el saldo cambió. Actualizá y revisá la compensación.');if(b.reversed_at<plan.returned_at)throw new OperationError('La fecha no puede ser anterior a la devolución.',400);
+  const id=crypto.randomUUID(),statements=[assertion(env,'NOT EXISTS(SELECT 1 FROM return_reversals WHERE record_type=? AND return_id=?)',[b.record_type,b.return_id]),assertion(env,'EXISTS(SELECT 1 FROM settlement_revisions WHERE record_type=? AND record_id=? AND revision=?)',[plan.record_type,plan.record_id,plan.balance_revision])];
+  statements.push(env.DB.prepare('INSERT INTO return_reversals(id,record_type,return_id,record_id,operation_key,reversed_at,reason,amount_cents,cost_cents,actor) VALUES(?,?,?,?,?,?,?,?,?,?)').bind(id,plan.record_type,plan.return_id,plan.record_id,key,b.reversed_at,b.reason.trim(),plan.amount_cents,plan.cost_cents,actor));
+  for(const s of plan.stocks){statements.push(stockGuard(env,s.product_id,state.stocks.get(s.product_id)),assertion(env,'NOT EXISTS(SELECT 1 FROM inventory_archived WHERE product_id=?)',[s.product_id]),env.DB.prepare("UPDATE stock_items SET quantity=?,cost_cents=?,updated_at=datetime('now') WHERE product_id=?").bind(s.after_quantity,s.after_cost_cents,s.product_id),env.DB.prepare('INSERT INTO stock_movements(id,product_id,delta,quantity_before,quantity_after,reason) VALUES(?,?,?,?,?,?)').bind(crypto.randomUUID(),s.product_id,s.delta,s.before_quantity,s.after_quantity,`Corrección devolución ${id}`),env.DB.prepare('INSERT INTO return_reversal_stock(reversal_id,product_id,delta,before_quantity,after_quantity,before_cost_cents,after_cost_cents,valuation_mode) VALUES(?,?,?,?,?,?,?,?)').bind(id,s.product_id,s.delta,s.before_quantity,s.after_quantity,s.before_cost_cents,s.after_cost_cents,s.valuation_mode))}
+  return {body:{ok:true,id,record_type:plan.record_type,record_id:plan.record_id},status:201,statements};
+ });
+}

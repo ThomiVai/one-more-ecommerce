@@ -1,0 +1,60 @@
+<!doctype html><html lang="es"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>ONE MORE | Inventario propio</title><style>
+*{box-sizing:border-box}body{margin:0;background:#101410;color:#f4f5ef;font:14px system-ui,Arial}main{max-width:1250px;margin:0 auto;padding:26px 16px}h1{font-size:clamp(26px,4vw,40px);margin:12px 0}h1 span,.accent{color:#b5ff63}.muted{color:#aeb8ab}.card{background:#20281f;border:1px solid #3e493d;border-radius:14px;padding:18px;margin:16px 0}.toolbar,.flex{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stats strong{font-size:27px;display:block;margin-top:7px}.stats .card{margin:0}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px}th{text-align:left;color:#b5ff63;font-size:12px}td,th{padding:11px 8px;border-bottom:1px solid #394238}input,select{background:#101710;border:1px solid #586656;border-radius:8px;color:white;padding:10px;font:inherit}input[type=number]{width:100px}input[type=password]{min-width:240px}#search{flex:1;min-width:240px}button{background:#b5ff63;border:0;color:#111b0c;border-radius:8px;font-weight:750;padding:11px 14px;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#354233;color:#f7f7f7}.status{font-size:12px}.low{color:#ffbf78}.zero{color:#ff9f9f}a{color:#b5ff63}.pill{border-radius:20px;padding:3px 8px;background:#33462f;font-size:12px}.right{text-align:right}@media(max-width:750px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style><link rel="icon" type="image/png" href="/images/brand/one-more-icon.png?v=180"></head><body><main><div class="flex"><b>ONE <span class="accent">MORE.</span> / ADMIN</b><span class="pill">V129 · Catálogo unificado</span><a href="/admin-v110.html">Pedidos</a></div><h1>Inventario <span>ONE MORE</span></h1><p class="muted">Precio de venta y costo se gestionan por separado. Se muestran las variantes publicadas, aunque todavía no tengan inventario físico registrado.</p>
+<section class="card"><div class="toolbar"><input id="key" type="password" autocomplete="off" placeholder="Clave ADMIN_API_KEY"><button id="load">Ingresar y cargar inventario</button><span id="message" class="status muted">Ingresá la clave de preproducción.</span></div></section>
+<div class="stats"><div class="card"><small>Productos y variantes visibles</small><strong id="total">—</strong></div><div class="card"><small>Unidades registradas</small><strong id="units">—</strong></div><div class="card"><small>Stock bajo / agotado cargado</small><strong id="low">—</strong></div><div class="card"><small>Capital en mercadería (a costo)</small><strong id="capital">—</strong></div></div>
+<section class="card"><h2>Gestión de productos y variantes</h2><div class="toolbar"><input id="search" placeholder="Buscar por marca, producto, sabor o ID..."><select id="filter"><option value="all">Todos</option><option value="pending">Sin stock registrado</option><option value="low">Stock bajo</option><option value="available">Con stock</option><option value="archived">Archivados</option></select></div><p class="muted">El listado reúne las variantes publicadas y el stock físico, sin duplicar los SKUs originales que ya estén vinculados. <strong>Sin stock registrado (0)</strong> significa que no hay unidades confirmadas para ese sabor; no se crea mercadería ni se modifica el historial. Las compras suman unidades y las ventas confirmadas las descuentan. Usá Guardar solo para un recuento o corrección con motivo. El alta física de variantes nuevas se incorporará en la próxima etapa. Las filas sin SKU son solo de consulta.</p><div class="scroll"><table><thead><tr><th>Producto y variante</th><th>Precio web</th><th>Unidades</th><th>Costo unitario ($)</th><th>Mínimo</th><th>Situación</th><th></th></tr></thead><tbody id="rows"></tbody></table></div><div class="toolbar"><button class="secondary" id="prev">Anterior</button><span id="paging"></span><button class="secondary" id="next">Siguiente</button></div></section>
+<section class="card"><h2>Últimos movimientos</h2><div class="scroll"><table><thead><tr><th>Fecha</th><th>Artículo</th><th>Movimiento</th><th>Antes</th><th>Después</th><th>Motivo</th></tr></thead><tbody id="history"><tr><td colspan="6">Sin movimientos.</td></tr></tbody></table></div></section>
+<script type="module">
+
+const $=id=>document.getElementById(id),safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const ars=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n);let catalog=[],visibleCatalog=[],stock={},movements=[],archived=new Set(),linkedInfo=new Map(),key='',page=0;const PAGE=18;
+function notice(t,bad=false){$('message').textContent=t;$('message').style.color=bad?'#ff9d9d':'#b5ff63'}
+async function api(url,opts={}){let r=await fetch(url,{...opts,headers:{'Authorization':'Bearer '+key,...(opts.body?{'Content-Type':'application/json'}:{})}});let d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'Error HTTP '+r.status);return d}
+$('load').onclick=async()=>{key=$('key').value.trim();$('key').value='';if(!key)return notice('Ingresá la clave',true);try{notice('Cargando datos…');const d=await api('/api/admin/own-stock');visibleCatalog=d.variants||[];catalog=visibleCatalog;archived=new Set(visibleCatalog.filter(p=>p.archived).map(p=>p.physicalId));stock=Object.fromEntries(d.items.map(x=>[x.product_id,x]));movements=d.history;render();notice('Catálogo + inventario conectados · D1 · Las variantes sin SKU no crean unidades');}catch(e){notice(e.message,true)}};
+ function rowsFiltered(){
+  let q=$('search').value.toLowerCase().trim(),f=$('filter').value;
+  return visibleCatalog.filter(p=>{
+    let x=p.physicalId?stock[p.physicalId]:null,qty=x?.quantity??0,low=qty<=(x?.min_quantity??1);
+    const haystack=[p.brand,p.name,p.size,p.id,p.commercialId,p.physicalId].join(' ').toLowerCase();
+    let matches=!q||q.split(/\s+/).every(token=>haystack.includes(token));
+    if(!matches)return false;
+    if(f==='archived')return !!p.physicalId && archived.has(p.physicalId);
+    if(p.physicalId && archived.has(p.physicalId))return false;
+    return f==='all'||(f==='pending'&&!x)||(f==='low'&&!!x&&low)||(f==='available'&&!!x&&qty>0);
+  });
+ }
+ function render(){
+  let items=rowsFiltered(),n=Math.max(1,Math.ceil(items.length/PAGE));page=Math.min(page,n-1);
+  $('paging').textContent=`Página ${page+1}/${n} · ${items.length} variantes y artículos`;
+  $('total').textContent=visibleCatalog.filter(p=>!p.physicalId||!archived.has(p.physicalId)).length;
+  $('units').textContent=Object.values(stock).reduce((a,x)=>a+Number(x.quantity||0),0);
+  $('low').textContent=Object.values(stock).filter(x=>x.quantity<=x.min_quantity).length;
+  $('capital').textContent=ars(Object.values(stock).reduce((a,x)=>a+x.quantity*x.cost_cents/100,0));
+  $('rows').innerHTML=items.slice(page*PAGE,(page+1)*PAGE).map(p=>{
+    const virtual=!!p.virtualVariant,physicalId=p.physicalId;
+    let x=physicalId?stock[physicalId]:null,q=x?.quantity??0,c=x?x.cost_cents/100:'',min=x?.min_quantity??1;
+    const name=`<b>${safe(p.brand)} · ${safe(p.name)}</b><br><small class="muted">${safe(p.size)} · ${safe(p.commercialId||p.id)} · ${safe(p.status||'Por identificar')}</small>`;
+    const origin=virtual?'<br><small style="color:#b5ff63">Variante comercial · 0 unidades registradas</small>':p.linkedToVariant?`<br><small style="color:#b5ff63">✓ SKU físico vinculado: ${safe(physicalId)}</small>`:'';
+    const price=p.price!=null?ars(p.price):(p.price_reference!=null?ars(p.price_reference)+' (referencia)':'Sin precio vinculado');
+    if(virtual){
+      return `<tr data-id="${safe(p.id)}"><td>${name}${origin}</td><td>${price}</td><td><span class="muted">0 (sin registrar)</span></td><td>—</td><td>—</td><td class="muted">Sin existencias confirmadas · ${p.status==='published'?'a pedido':'no publicada'}</td><td><span class="muted">Solo consulta</span></td></tr>`;
+    }
+    return `<tr data-id="${safe(physicalId)}"><td>${name}${origin}</td><td>${price}</td><td><input data-field="quantity" type="number" min="0" max="100000" step="1" value="${q}"></td><td><input data-field="cost" type="number" min="0" max="10000000000" step="0.01" placeholder="Sin registrar" value="${c}"></td><td><input data-field="min" type="number" min="0" max="100000" step="1" value="${min}"></td><td class="${!x?'low':q===0?'zero':q<=min?'low':''}">${!x?'Sin cargar':q===0?'Agotado':q<=min?'Bajo':'Disponible'}</td><td><button data-save="${safe(physicalId)}" ${archived.has(physicalId)?'disabled':''}>Guardar</button> <button class="secondary" data-archive="${safe(physicalId)}">${archived.has(physicalId)?'Restaurar':'Archivar'}</button></td></tr>`;
+  }).join('')||'<tr><td colspan="7">Sin resultados</td></tr>';
+$('history').innerHTML=movements.map(x=>`<tr><td>${safe(x.created_at)}</td><td>${safe(x.product_id)}</td><td>${x.delta>0?'+':''}${x.delta}</td><td>${x.quantity_before}</td><td>${x.quantity_after}</td><td>${safe(x.reason)}</td></tr>`).join('')||'<tr><td colspan="6">Sin movimientos.</td></tr>';
+document.querySelectorAll('[data-archive]').forEach(b=>b.onclick=async()=>{
+ const product_id=b.dataset.archive,isArchived=archived.has(product_id),qty=stock[product_id]?.quantity||0;
+ if(!isArchived&&qty>0)return notice('Primero ajustá a cero las unidades físicas; se conservará el movimiento.',true);
+ if(!confirm(isArchived?'¿Restaurar este ítem en el inventario?':'¿Archivar este ítem? Solo se ocultará del listado; el historial se conserva.'))return;
+ b.disabled=true;
+ try{await api('/api/admin/inventory-archive',{method:'POST',body:JSON.stringify({product_id,action:isArchived?'restore':'archive',operation_key:crypto.randomUUID()})});
+ if(isArchived)archived.delete(product_id);else archived.add(product_id);
+ page=0;render();notice(isArchived?'Ítem restaurado: '+product_id:'Ítem archivado: '+product_id);
+ }catch(e){notice(e.message,true);b.disabled=false}
+ });
+ document.querySelectorAll('[data-save]').forEach(b=>b.onclick=async()=>{const tr=b.closest('tr'),product_id=b.dataset.save,q=Number(tr.querySelector('[data-field=quantity]').value),c=tr.querySelector('[data-field=cost]').value.trim()===''?NaN:Number(tr.querySelector('[data-field=cost]').value),min=Number(tr.querySelector('[data-field=min]').value);if(!Number.isSafeInteger(q)||q<0||!Number.isSafeInteger(min)||min<0||!Number.isFinite(c)||c<0||Math.round(c*100)>1e12)return notice('Revisá los valores cargados',true);const old=stock[product_id];const reason=prompt('Motivo del ajuste de unidades, costo o mínimo:','Recuento físico')?.trim();if(!reason)return;b.disabled=true;try{await api('/api/admin/own-stock',{method:'POST',body:JSON.stringify({product_id,quantity:q,cost_cents:Math.round(c*100),min_quantity:min,reason,expected_revision:old?.revision??null,operation_key:crypto.randomUUID()})});const d=await api('/api/admin/own-stock');visibleCatalog=d.variants||[];stock=Object.fromEntries(d.items.map(x=>[x.product_id,x]));movements=d.history;render();notice('Guardado: '+product_id)}catch(e){notice(e.message,true);b.disabled=false}});
+}
+$('search').oninput=()=>{page=0;render()};$('filter').onchange=()=>{page=0;render()};$('prev').onclick=()=>{page=Math.max(0,page-1);render()};$('next').onclick=()=>{page++;render()};
+
+(async()=>{try{const r=await fetch('/api/admin/session',{credentials:'same-origin'});const d=await r.json();if(d.authenticated){const k=document.getElementById('key');if(k)k.value='Sesión activa';document.getElementById('load')?.click();const panel=k?.closest('section')||k?.closest('.card');if(panel){panel.style.display='none';}}}catch(e){console.warn('Sesión no disponible',e)}})();
+</script></main></body></html>

@@ -1,0 +1,9 @@
+
+/* One photographic stage, original package pixels, consistent framing. */
+.product-image.om-normalized-photo{background:var(--om-photo-bg,#fff)!important;background-image:none!important;box-shadow:none!important;filter:none!important;mix-blend-mode:normal!important;position:relative!important;aspect-ratio:1/1!important;height:auto!important;min-height:0!important;padding:0!important;overflow:hidden!important;display:block!important}
+.product-image.om-normalized-photo .om-product-photo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:80%;height:80%;display:block;filter:none!important}
+.om-product-gallery .detail-hero-photo.om-normalized-photo{background:var(--om-photo-bg,#fff)!important;position:relative!important;padding:0!important;box-shadow:none!important;filter:none!important;overflow:hidden!important}
+.om-product-gallery .detail-hero-photo.om-normalized-photo .om-product-photo{width:84%;height:82%;display:block;filter:none!important;transform:none!important}
+.product-image.om-normalized-photo .tag{position:absolute;z-index:1}
+@media(max-width:700px){.product-image.om-normalized-photo .om-product-photo{width:78%;height:78%}.om-product-gallery .detail-hero-photo.om-normalized-photo .om-product-photo{width:82%;height:80%}}
+.om-preproduction-photo{padding:7px 15px;text-align:center;font-size:11px;letter-spacing:.1em;background:#203013;color:#b5f36a;border-bottom:1px solid #3c5127}

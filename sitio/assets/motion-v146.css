@@ -1,0 +1,57 @@
+/* Mismos colores, tipografías y borde editorial de V144. */
+.om144-home .om146-brands{display:flex;align-items:center;gap:30px;background:#f1f0e9;border-bottom:1px solid #d0d4c5;padding:25px 0 29px;min-width:0}
+.om146-brands-caption{flex:0 0 152px;display:flex;align-items:center;gap:14px}
+.om146-brands-caption>span{font:800 8px/1.8 Manrope,sans-serif;letter-spacing:1.2px;color:#78816e;max-width:19ch}
+.om144-home .om146-brands-pause{flex:none;width:28px;height:28px;border:1px solid #d0d4c5;background:none;color:#5e6c54;font:700 11px Manrope,sans-serif;border-radius:2px}
+.om146-brand-window{flex:1;min-width:0;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.om146-brand-track{display:flex;width:max-content;animation:om146-brands-run 38s linear infinite;will-change:transform}
+.om146-brand-group{display:flex;align-items:center;flex:none}
+.om144-home .om146-wordmark{display:block;flex:0 0 185px;width:185px;padding:0 18px;text-align:center;white-space:nowrap;color:#5e6c54;font:900 35px/.9 'Barlow Condensed',sans-serif;letter-spacing:.4px}
+.om144-home .om146-wordmark small{display:block;margin-top:5px;font:800 8px/1 Manrope,sans-serif;letter-spacing:3.5px}
+@keyframes om146-brands-run{to{transform:translateX(-50%)}}
+.om146-brands:hover .om146-brand-track,.om146-brands:focus-within .om146-brand-track,.om146-brands.is-paused .om146-brand-track{animation-play-state:paused}
+
+/* Una superficie real para el combo. La imagen entra, no flota. */
+.om144-home .spotlight-carousel{position:relative}
+.om144-home .spotlight-slide{animation:none}
+.om144-home .spotlight-product{isolation:isolate;overflow:hidden;height:330px;border-bottom:1px solid #71875b38}
+.om144-home .spotlight-product:before{background:linear-gradient(180deg,transparent 55%,#b5ff6306);inset:0}
+.om146-stage-platform{position:absolute;left:7%;right:7%;bottom:10px;height:39px;z-index:1;border-radius:50%;background:radial-gradient(ellipse at 50% 15%,#435632 0%,#273a22 54%,#132010 78%);border-top:1px solid #a8c88670;box-shadow:0 17px 24px #0006,0 2px 0 #121c10;pointer-events:none}
+.om146-stage-platform:after{content:'';position:absolute;left:14%;right:14%;top:-8px;height:24px;border-radius:50%;background:radial-gradient(ellipse,#0009,transparent 70%)}
+.om146-stage-halo{position:absolute;inset:2% 0 10%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 50% 65%,#b5ff6316,transparent 65%);animation:om146-light 6.5s ease-in-out infinite}
+.om144-home .spotlight-product>img{position:relative;z-index:2;display:block;object-position:center bottom;width:94%;height:100%;padding:0 0 26px;filter:drop-shadow(0 13px 6px #0004);animation:om146-combo-arrive .85s cubic-bezier(.16,1,.3,1) both;transform-origin:50% 100%}
+.om144-home .spotlight-product.om146-cutout>img{padding:0;width:100%}
+.om144-home .spotlight-product.om146-scene>img{padding:0;width:100%;filter:none;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.om146-scene .om146-stage-platform{display:none}
+@keyframes om146-combo-arrive{from{opacity:0;transform:translateX(40px) scale(.96)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes om146-light{0%,100%{opacity:.55;transform:scale(.97)}50%{opacity:1;transform:scale(1.03)}}
+.om144-home .spotlight-details{position:relative;margin-top:0;border-top:0;padding-top:21px}
+.om144-home .spotlight-top{padding-bottom:10px}
+.om144-home .spotlight-tabs button{position:relative;transition:color .25s}
+.om144-home .spotlight-tabs button:after{content:'';position:absolute;left:4px;right:4px;bottom:1px;height:2px;background:#b5ff63;transform:scaleX(0);transition:transform .35s}
+.om144-home .spotlight-tabs button[aria-pressed=true]:after{transform:scaleX(1)}
+.om144-home .spotlight-carousel:hover .om146-stage-halo,.om144-home .spotlight-carousel:focus-within .om146-stage-halo,.spotlight-carousel:has(.spotlight-pause[aria-pressed=true]) .om146-stage-halo{animation-play-state:paused}
+.spotlight-carousel:has(.spotlight-pause[aria-pressed=true]) .spotlight-product>img{animation:none}
+.om144-home.paused .spotlight-product>img{animation:none}
+@media(max-width:700px){
+ .om144-home .om146-brands{display:block;padding:22px 0}
+ .om146-brands-caption{justify-content:space-between;margin-bottom:21px}
+ .om146-brands-caption>span{font-size:7px;max-width:none}
+ .om146-brand-window{width:100%}
+ .om144-home .om146-wordmark{flex-basis:150px;width:150px;font-size:29px}
+ .om144-home .om146-wordmark small{font-size:6px;letter-spacing:2.5px}
+ .om144-home .spotlight-product{height:265px}
+ .om146-stage-platform{left:5%;right:5%;height:30px;bottom:8px}
+ .om144-home .spotlight-product>img{padding-bottom:22px;width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ .om146-brand-track{animation:none;transform:none;will-change:auto}
+ .om146-brand-group[aria-hidden=true]{display:none}
+ .om146-brand-window{overflow-x:auto;mask-image:none}
+ .om146-brand-group{flex-wrap:wrap;justify-content:center;gap:24px 0;width:100%}
+ .om146-brand-track{width:100%}
+ .om144-home .om146-wordmark{flex-basis:160px;width:160px}
+ .om144-home .om146-brands-pause{display:none}
+ .om144-home .spotlight-product>img,.om146-stage-halo{animation:none;transform:none}
+ .om144-home .spotlight-tabs button:after{transition:none}
+}

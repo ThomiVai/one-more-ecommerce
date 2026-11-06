@@ -1,0 +1,16 @@
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/version.json
+  Cache-Control: no-cache
+
+/data/products.json
+  Cache-Control: no-store, max-age=0
+
+/admin*
+  Cache-Control: no-store
+/data/*
+  Cache-Control: no-store
+/assets/stock-matching-v1282.js
+  Cache-Control: no-cache

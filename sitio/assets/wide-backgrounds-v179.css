@@ -1,0 +1,57 @@
+/* Extensión de pintura lateral sobre V177. No cambia cajas ni pseudoelementos.
+   border-image no participa del layout ni del área de desplazamiento.
+   La cabecera ya ocupa todo el viewport en V177: no se modifica.
+   Los bordes originales se conservan mediante los extremos del gradiente. */
+@media (min-width:1501px) {
+  body .om144-home {
+    border-image: linear-gradient(to bottom, #f1f0e9 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .announcement {
+    border-image: linear-gradient(to bottom, #080f0a 0px calc(100% - 1px), #263028 calc(100% - 1px) 100%) 0 1 1 / 0px 100vw 1px / 0 100vw stretch;
+  }
+  body #root>footer {
+    border-image: linear-gradient(to bottom, #0c100e 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .om144-fallback {
+    border-image: linear-gradient(to bottom, #e7edda 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .om144-marquee {
+    border-image: linear-gradient(to bottom, #b5ff63 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .brand-hero.spotlight-hero {
+    border-image: linear-gradient(to bottom, #10170f 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .om144-trust {
+    border-image: linear-gradient(to bottom, #f1f0e9 0px calc(100% - 1px), #ccd4c0 calc(100% - 1px) 100%) 0 1 1 / 0px 100vw 1px / 0 100vw stretch;
+  }
+  body .om144-home .shopping-gates {
+    border-image: linear-gradient(to bottom, #f1f2e9 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .star-offers {
+    border-image: linear-gradient(to bottom, #344a2a 0 1px, #142016 1px calc(100% - 1px), #344a2a calc(100% - 1px) 100%) 1 1 1 / 1px 100vw 1px / 0 100vw stretch;
+  }
+  body .om144-home .discovery {
+    border-image: linear-gradient(to bottom, #f1f2e9 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .om-combos {
+    border-image: linear-gradient(to bottom, #e4ead8 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .shop-products {
+    border-image: linear-gradient(to bottom, #f2f1e8 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .shop-section-break {
+    border-image: linear-gradient(to bottom, #b5ff63 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .buying {
+    border-image: linear-gradient(to bottom, #b5ff63 0 4px, #152117 4px calc(100% - 0px)) 4 1 0 / 4px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .one-more-radio {
+    border-image: linear-gradient(to bottom, #b5ff63 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .one-more-social {
+    border-image: linear-gradient(to bottom, #f1f2e9 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+  body .om144-home .questions {
+    border-image: linear-gradient(to bottom, #f8f9f2 0px calc(100% - 0px)) 0 1 0 / 0px 100vw 0px / 0 100vw stretch;
+  }
+}

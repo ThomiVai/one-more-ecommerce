@@ -1,0 +1,50 @@
+/* Ficha clara: el tema anterior estaba preparado para fondo oscuro. */
+body .om-product-mode{background:#f2f1e8;color:#172519;}
+body .om-product-mode .om-product-page{color:#172519;font-family:Manrope,Arial,sans-serif;}
+body .om-product-mode .om-product-buy h1{color:#172519;font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(34px,3.6vw,54px);font-weight:600;letter-spacing:0;line-height:1.05;}
+body .om-product-mode .om-product-buy>.eyebrow{color:#435c35;font-weight:800;letter-spacing:1.3px;}
+body .om-product-mode :is(.om-product-size,.om-product-summary,.om-product-information p,.om-product-delivery p){color:#455341;}
+body .om-product-mode .om-product-price{color:#203817;font-weight:800;}
+body .om-product-mode .flavor-selector legend{color:#172519;font-weight:800;margin-bottom:12px;}
+body .om-product-mode .flavor-option{background:#fff;color:#233c18;border:1px solid #87917e;border-radius:5px;min-height:48px;cursor:pointer;transition:background .18s,border-color .18s;}
+body .om-product-mode .flavor-option.selected{background:#233c18;color:#fff;border-color:#233c18;}
+body .om-product-mode .flavor-option input{accent-color:#385e22;}
+body .om-product-mode .flavor-option.selected input{accent-color:#b5ff63;}
+body .om-product-mode .flavor-option:has(input:focus-visible){outline:3px solid #365a24;outline-offset:3px;}
+body .om-product-mode :is(.om-back-link,.om-share-link,.om-label-link,.om-product-breadcrumb a){color:#2e501e;font-weight:700;}
+body .om-product-mode :is(.om-product-breadcrumb,.om-product-note,.om-product-delivery small,.om-share-status){color:#4b5944;}
+body .om-product-mode :is(.om-product-information h2,.om-product-information strong,.om-product-precautions summary,.om-product-related h2){color:#172519;}
+body .om-product-mode :is(.om-product-information,.om-product-delivery){border-color:#b7c1ad;}
+body .om-product-mode .om-product-tabs button{background:#fff;color:#233c18;border:1px solid #87917e;min-height:44px;font-weight:800;}
+body .om-product-mode .om-product-tabs button.selected{background:#b5ff63;color:#172519;border-color:#90d246;}
+body .om-product-mode .om-page-add{background:#b5ff63;color:#172519;border:1px solid #90d246;font-weight:800;}
+body .om-product-mode .om-page-add:disabled{background:#d5dacd;color:#455341;opacity:1;}
+body .om-product-mode .om-product-quantity{border-color:#87917e;background:#fff;}
+body .om-product-mode .om-product-quantity :is(input,button){background:#fff;color:#172519;}
+body .om-product-mode .om-product-quantity button:disabled{color:#65715b;opacity:.65;}
+body .om-product-mode .om-product-quantity input{font-weight:800;}
+body .om-product-mode :is(a,button,input,summary):focus-visible{outline:3px solid #365a24;outline-offset:3px;}
+body .om153-related{background:transparent;margin-top:48px;}
+body .om153-related .shop-grid{gap:18px;}
+body .om153-related h2{font-family:'Barlow Condensed',Impact,sans-serif;font-size:32px;line-height:1.1;}
+body .om153-related .shop-card{display:flex;flex-direction:column;min-width:0;}
+body .om153-related .shop-card-copy{padding:22px 18px;}
+/* Movimiento breve, sin bucles, únicamente en las cards compartidas. */
+@media(prefers-reduced-motion:no-preference){
+ .om144-home:not(.paused) .shop-card{animation:om153-arrive .45s ease-out;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+ .om144-home:not(.paused) .shop-card:nth-child(4n+2){animation-duration:.52s;}
+ .om144-home:not(.paused) .shop-card:nth-child(4n+3){animation-duration:.59s;}
+ .om144-home:not(.paused) .shop-card:nth-child(4n){animation-duration:.66s;}
+ .om144-home:not(.paused) .shop-card .om144-photo{transition:transform .35s cubic-bezier(.2,.7,.2,1);}
+ @media(hover:hover) and (pointer:fine){
+  .om144-home:not(.paused) .shop-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px #17251922;border-color:#5b843b;}
+  .om144-home:not(.paused) .shop-card:hover .om144-photo{transform:translateY(-3px) scale(1.035);}
+ }
+ .om144-home:not(.paused) .shop-card:focus-within{box-shadow:0 0 0 2px #6e923f;}
+}
+@keyframes om153-arrive{from{opacity:.35;translate:0 10px}to{opacity:1;translate:0 0}}
+@media(prefers-reduced-motion:reduce){body .om144-home .shop-card,body .om144-home .shop-card .om144-photo{animation:none!important;transition:none!important;transform:none!important;translate:none!important;}body .om-product-mode .flavor-option{transition:none;}}
+.om144-home.paused .shop-card,.om144-home.paused .shop-card .om144-photo{animation:none!important;transition:none!important;transform:none!important;translate:none!important;}
+@media(max-width:700px){body .om-product-mode .om-product-buy h1{font-size:36px;}body .om-product-mode .flavor-option{padding:12px;flex:1 1 110px;}body .om-product-mode .om-buy-actions{flex-wrap:wrap;}body .om-product-mode .om-page-add{min-width:150px;}body .om153-related .shop-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}body .om153-related .shop-card-copy{padding:16px 10px;}body .om153-related .shop-card-copy h3{font-size:22px;}body .om153-related .shop-card-image{height:180px;}}
+/* La regla histórica que oculta el inicio dentro de una ficha no debe ocultar esta sección compartida. */
+body .om-product-mode .om153-related.om144-home{display:block;}

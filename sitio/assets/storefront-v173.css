@@ -1,0 +1,18 @@
+/* SVG propios: misma forma en Safari/iPhone, sin glifos emoji. */
+.om173-arrow{display:inline-block;width:1em;height:1em;min-width:1em;flex:0 0 1em;vertical-align:-.12em;overflow:visible;pointer-events:none}
+body .om144-home .discovery-card-top>b{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;line-height:1}
+body .om144-home .discovery-card-top>b .om173-arrow{width:32px;height:32px;min-width:32px}
+body .om144-home .discovery-card-bottom>b{display:inline-flex;align-items:center;gap:7px;line-height:1.5}
+body .om144-home .discovery-card-bottom>b .om173-arrow{width:17px;height:17px;min-width:17px}
+.om173-catalog-breadcrumb{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px;font:600 14px/1.6 Manrope,Arial,sans-serif;color:#4b6140}
+.om173-catalog-breadcrumb a{text-decoration:underline;text-underline-offset:4px}
+body .om156-search .section-head{align-items:flex-start;gap:20px;flex-wrap:wrap}
+body .om156-search .section-head h2{font-size:clamp(36px,5vw,64px);line-height:1.05}
+@media(max-width:700px){
+ body .om144-home .discovery-card-top>b{width:36px;height:36px}
+ body .om144-home .discovery-card-top>b .om173-arrow{width:28px;height:28px;min-width:28px}
+ body .om144-home .discovery-card-bottom{gap:14px;align-items:flex-end}
+ body .om144-home .discovery-card-bottom>span{min-width:0}
+ body .om144-home .discovery-card-bottom>b{white-space:nowrap;flex-shrink:0;font-size:12px}
+ .om173-catalog-breadcrumb{font-size:13px;margin-bottom:18px}
+}

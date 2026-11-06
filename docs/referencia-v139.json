@@ -1,0 +1,373 @@
+{
+  "source": "Esquemas V139 del ZIP V140 recibido, sin datos reales",
+  "tables": {
+    "cash_entries": [
+      "id",
+      "operation_key",
+      "kind",
+      "amount_cents",
+      "method",
+      "destination",
+      "paid_at",
+      "category",
+      "note",
+      "record_type",
+      "record_id",
+      "actor",
+      "created_at"
+    ],
+    "cash_opening": [
+      "id",
+      "operation_key",
+      "start_date",
+      "cash_cents",
+      "transfer_cents",
+      "mercadopago_cents",
+      "other_cents",
+      "note",
+      "actor",
+      "created_at"
+    ],
+    "cash_reversals": [
+      "id",
+      "entry_id",
+      "operation_key",
+      "reversed_at",
+      "reason",
+      "actor",
+      "created_at"
+    ],
+    "catalog_creation_keys": [
+      "signature",
+      "product_id"
+    ],
+    "catalog_identity_revision": [
+      "id",
+      "revision"
+    ],
+    "catalog_new_products": [
+      "id",
+      "group_id",
+      "name",
+      "brand",
+      "size",
+      "category",
+      "price_cents",
+      "publication_status",
+      "image_url",
+      "description",
+      "created_at",
+      "updated_at"
+    ],
+    "catalog_overrides": [
+      "product_id",
+      "name",
+      "brand",
+      "size",
+      "price_cents",
+      "publication_status",
+      "image_url",
+      "description",
+      "updated_at"
+    ],
+    "catalog_stock_links": [
+      "catalog_id",
+      "stock_id",
+      "created_at",
+      "updated_at"
+    ],
+    "document_reviews": [
+      "id",
+      "operation_key",
+      "record_type",
+      "record_id",
+      "document_revision",
+      "balance_cents",
+      "conclusion",
+      "note",
+      "actor",
+      "created_at"
+    ],
+    "finance_revision": [
+      "id",
+      "revision"
+    ],
+    "inventory_archived": [
+      "product_id",
+      "archived_at",
+      "reason"
+    ],
+    "management_assertions": [
+      "id",
+      "ok"
+    ],
+    "management_operations": [
+      "operation_key",
+      "kind",
+      "request_hash",
+      "result_json",
+      "actor",
+      "created_at"
+    ],
+    "orders": [
+      "id",
+      "created_at",
+      "updated_at",
+      "source",
+      "customer_name",
+      "customer_phone",
+      "status",
+      "total_cents",
+      "currency",
+      "note",
+      "items_json",
+      "loyverse_receipt_id"
+    ],
+    "purchase_documents": [
+      "id",
+      "supplier",
+      "document_number",
+      "document_date",
+      "document_total_cents",
+      "line_count",
+      "created_at"
+    ],
+    "purchase_lines": [
+      "id",
+      "purchase_id",
+      "product_id",
+      "supplier_code",
+      "description",
+      "quantity",
+      "unit_cost_cents",
+      "line_total_cents"
+    ],
+    "purchase_return_lines": [
+      "id",
+      "return_id",
+      "purchase_line_id",
+      "product_id",
+      "quantity",
+      "remove_from_stock",
+      "unit_cost_cents",
+      "original_line_total_cents",
+      "credit_cents"
+    ],
+    "purchase_returns": [
+      "id",
+      "purchase_id",
+      "operation_key",
+      "returned_at",
+      "reason",
+      "credit_cents",
+      "inventory_removed_cents",
+      "actor",
+      "created_at"
+    ],
+    "return_reversal_stock": [
+      "reversal_id",
+      "product_id",
+      "delta",
+      "before_quantity",
+      "after_quantity",
+      "before_cost_cents",
+      "after_cost_cents",
+      "valuation_mode"
+    ],
+    "return_reversals": [
+      "id",
+      "record_type",
+      "return_id",
+      "record_id",
+      "operation_key",
+      "reversed_at",
+      "reason",
+      "amount_cents",
+      "cost_cents",
+      "actor",
+      "created_at"
+    ],
+    "return_stock_effects": [
+      "record_type",
+      "return_id",
+      "product_id",
+      "before_quantity",
+      "after_quantity",
+      "before_cost_cents",
+      "after_cost_cents",
+      "revision_after"
+    ],
+    "sale_combo_components": [
+      "sale_line_id",
+      "group_id",
+      "slot"
+    ],
+    "sale_combo_groups": [
+      "id",
+      "sale_id",
+      "combo_id",
+      "label",
+      "quantity",
+      "unit_price_cents",
+      "recipe_json"
+    ],
+    "sale_lines": [
+      "id",
+      "sale_id",
+      "product_id",
+      "quantity",
+      "unit_price_cents",
+      "unit_cost_cents"
+    ],
+    "sale_return_lines": [
+      "id",
+      "return_id",
+      "sale_line_id",
+      "product_id",
+      "quantity",
+      "return_to_stock",
+      "unit_price_cents",
+      "unit_cost_cents"
+    ],
+    "sale_returns": [
+      "id",
+      "sale_id",
+      "operation_key",
+      "returned_at",
+      "reason",
+      "refund_cents",
+      "cost_reversal_cents",
+      "actor",
+      "created_at"
+    ],
+    "sales": [
+      "id",
+      "reference",
+      "sold_at",
+      "channel",
+      "note",
+      "revenue_cents",
+      "cost_cents",
+      "created_at",
+      "order_id"
+    ],
+    "settlement_reversals": [
+      "id",
+      "settlement_id",
+      "operation_key",
+      "reversed_at",
+      "reason",
+      "actor",
+      "created_at"
+    ],
+    "settlement_revisions": [
+      "record_type",
+      "record_id",
+      "revision"
+    ],
+    "settlements": [
+      "id",
+      "operation_key",
+      "record_type",
+      "record_id",
+      "direction",
+      "amount_cents",
+      "paid_at",
+      "method",
+      "reference",
+      "note",
+      "actor",
+      "created_at"
+    ],
+    "stock_change_audit": [
+      "id",
+      "operation_key",
+      "stock_id",
+      "before_json",
+      "after_json",
+      "reason",
+      "actor",
+      "created_at"
+    ],
+    "stock_items": [
+      "product_id",
+      "quantity",
+      "cost_cents",
+      "min_quantity",
+      "updated_at"
+    ],
+    "stock_link_audit": [
+      "id",
+      "catalog_id",
+      "old_stock_id",
+      "new_stock_id",
+      "action",
+      "actor",
+      "created_at"
+    ],
+    "stock_movements": [
+      "id",
+      "product_id",
+      "delta",
+      "quantity_before",
+      "quantity_after",
+      "reason",
+      "created_at"
+    ],
+    "stock_revisions": [
+      "product_id",
+      "revision"
+    ],
+    "team_access_events": [
+      "id",
+      "actor_id",
+      "actor_name",
+      "action",
+      "target_id",
+      "detail",
+      "created_at"
+    ],
+    "team_login_limits": [
+      "bucket",
+      "attempts",
+      "reset_at"
+    ],
+    "team_sessions": [
+      "token_hash",
+      "user_id",
+      "revision",
+      "expires_at",
+      "created_at"
+    ],
+    "team_settings": [
+      "id",
+      "shared_access"
+    ],
+    "team_users": [
+      "id",
+      "username",
+      "name",
+      "role",
+      "active",
+      "key_hash",
+      "revision",
+      "created_at",
+      "updated_at"
+    ]
+  },
+  "views": [
+    "active_purchase_return_lines_v138",
+    "active_purchase_returns_v138",
+    "active_sale_return_lines_v138",
+    "active_sale_returns_v138",
+    "cash_flows_v139",
+    "cash_methods_v139",
+    "document_amounts_v137",
+    "expense_activity_v139",
+    "purchase_activity_v136",
+    "reconciliation_v139",
+    "sale_item_activity_v135",
+    "sales_activity_v135",
+    "settlement_balances_v137"
+  ]
+}

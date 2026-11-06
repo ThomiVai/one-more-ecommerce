@@ -1,0 +1,16 @@
+/* Colores explícitos para textos que heredaban el tema oscuro anterior. */
+body .om144-home .om-star-combos .om-star-head .eyebrow,
+body .om144-home .om-star-combos .om-star-head-desc,
+body .om144-home .om-star-combos .om-star-card-desc,
+body .om144-home .om-star-combos .om-star-bullets,
+body .om144-home .om-star-combos .om-star-card-bottom small,
+body .om144-home .om-star-combos .om-star-price-note,
+body .om144-home .om-star-combos .om144-combo-savings{color:#455341;opacity:1;}
+body .om144-home .om-star-combos .om-star-head h2{color:#172519;}
+body .om144-home .om-star-combos .om-star-head h2 .orange{color:#365a24;}
+body .om144-home .om-star-combos .om-star-head-desc{font-size:14px;line-height:1.6;}
+body .om144-home .om-star-combos .om-star-price-note{font-size:12px;line-height:1.6;}
+body .om144-home #productos{scroll-margin-top:110px;}
+@media(max-width:700px){body .om144-home #productos{scroll-margin-top:180px;}}
+
+.om156-search.om144-home{padding:44px max(20px,calc((100vw - 1320px)/2));background:#f1f0e7;color:#172519;min-height:70vh}.om156-search .section-head h2,.om156-search .eyebrow,.om156-search .muted,.om156-search .catalog-results{color:#354a31!important}.om156-search input,.om156-search select{color:#172519;background:#fff}.om156-search .catalog-more{color:#172519;background:#b5ff63}.om156-search .shop-grid{margin-top:24px}

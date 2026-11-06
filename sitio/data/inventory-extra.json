@@ -1,0 +1,101 @@
+[
+  {
+    "id": "inventory-gentech-creatina-250",
+    "brand": "GENTECH",
+    "name": "Creatina Monohidrato",
+    "size": "250 g · Neutro",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-star-platinum-whey-2lb-vainilla",
+    "brand": "STAR NUTRITION",
+    "name": "Platinum Whey Protein 2 lb",
+    "size": "910 g · Vainilla",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-star-creatina-150-neutro",
+    "brand": "STAR NUTRITION",
+    "name": "Creatina Monohidrato USA",
+    "size": "150 g · Neutro",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-star-creatina-300-pote-neutro",
+    "brand": "STAR NUTRITION",
+    "name": "Creatina Monohidrato USA",
+    "size": "300 g · Pote · Neutro",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-star-creatina-300-doypack-neutro",
+    "brand": "STAR NUTRITION",
+    "name": "Creatina Monohidrato USA",
+    "size": "300 g · Doypack · Neutro",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-star-creatina-300-doypack-frutos-rojos",
+    "brand": "STAR NUTRITION",
+    "name": "Creatina Monohidrato USA",
+    "size": "300 g · Doypack · Frutos Rojos",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-star-creatina-300-doypack-uva",
+    "brand": "STAR NUTRITION",
+    "name": "Creatina Monohidrato USA",
+    "size": "300 g · Doypack · Uva",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-ena-creatina-300-neutra",
+    "brand": "ENA SPORT",
+    "name": "Creatina Micronizada",
+    "size": "300 g · Neutra",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-body-whey-910-frutos-rojos",
+    "brand": "BODY ADVANCE",
+    "name": "Whey Protein",
+    "size": "910 g · Frutos Rojos",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-gold-whey-910",
+    "brand": "GOLD NUTRITION",
+    "name": "100% Whey Protein",
+    "size": "910 g · Sabor por verificar",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  },
+  {
+    "id": "inventory-gold-creatina-300",
+    "brand": "GOLD NUTRITION",
+    "name": "Creatina Monohidrato",
+    "size": "300 g · Neutro",
+    "price": null,
+    "status": "inventory_only",
+    "inventoryOnly": true
+  }
+]

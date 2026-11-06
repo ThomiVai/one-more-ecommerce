@@ -1,0 +1,133 @@
+/* ONE MORE V171: legibilidad de la tienda, sin alterar el panel administrativo. */
+body{font-size:16px}
+body .header{gap:20px}
+body .header nav{font-size:14px;gap:22px}
+body .header .cart-button{font-size:14px}
+body .header .om143-search input{font-size:16px}
+body .header .om143-search button{font-size:13px}
+body .om144-home .section-kicker,
+body .om144-home .hero-eyebrow,
+body .om144-home .hero-local,
+body .om144-home .spotlight-top,
+body .om144-home .spotlight-brand,
+body .om144-home .om146-brands-caption,
+body .om144-home .radio-eyebrow{font-size:12px;line-height:1.55}
+body .om144-home .spotlight-hero .hero-copy p{font-size:16px;line-height:1.8;max-width:44ch}
+body .om144-home .hero-primary,
+body .om144-home .hero-secondary{font-size:13px;line-height:1.5}
+body .om144-home .hero-actions{flex-wrap:wrap;gap:14px}
+body .om144-home .spotlight-details p{font-size:14px;line-height:1.6;max-width:36ch}
+body .om144-home .spotlight-details{min-width:0;gap:18px;flex-wrap:wrap}
+body .om144-home .spotlight-buy{min-width:0}
+body .om144-home .spotlight-buy button,
+body .om144-home .spotlight-next{font-size:12px;min-height:44px}
+body .om144-home .spotlight-tabs button{font-size:12px;min-width:32px;min-height:44px}
+body .om144-home .spotlight-navigation{flex-wrap:wrap;gap:12px}
+body .om144-home .om144-trust{font-size:13px;line-height:1.6}
+body .om144-home .star-offers-heading p,
+body .om144-home .products-title p,
+body .om144-home .buying-head>p,
+body .om144-home .buying-step p,
+body .om144-home .radio-copy>p,
+body .om144-home .social-heading p{font-size:16px;line-height:1.75}
+body .om144-home .star-offers-heading>a{font-size:13px;line-height:1.5}
+body .om144-home .shop-card-copy small,
+body .om144-home .star-offer-copy>small{font-size:12px;line-height:1.5}
+body .om144-home .shop-card-copy h3{font-size:32px;line-height:1.12;min-height:0;overflow-wrap:anywhere}
+body .om144-home .star-offer-copy h3{font-size:30px;line-height:1.12;min-height:0;overflow-wrap:anywhere}
+body .om144-home .shop-card-copy p,
+body .om144-home .star-offer-copy>p{font-size:14px;line-height:1.6;min-height:0}
+body .om144-home .shop-tag,
+body .om144-home .star-offer-label{font-size:11px;line-height:1.4}
+body .om144-home .star-offer-cta{font-size:13px;line-height:1.4;min-height:46px;white-space:normal}
+body .om144-home .star-save{font-size:13px;line-height:1.5}
+body .om144-home .star-price-row{flex-wrap:wrap;gap:8px}
+body .om144-home .star-price-row strong{font-size:34px;line-height:1.2}
+body .om144-home .star-price-row del{font-size:15px}
+body .om144-home .availability{font-size:12px;line-height:1.6}
+body .om144-home .om-star-head-desc,
+body .om144-home .om-star-card-desc,
+body .om144-home .om-star-bullets{font-size:15px;line-height:1.7}
+body .om144-home .om-brand-filter-btn,
+body .om144-home .om-star-main-btn,
+body .om144-home .om-star-card-bottom small,
+body .om144-home .om-star-price-note,
+body .om144-home .om144-combo-savings,
+body .om144-home .om144-combo-savings del{font-size:13px;line-height:1.6}
+body .om144-home .om-star-main-btn{white-space:normal;min-height:46px}
+body .om144-home .buying-step h3{font-size:20px;line-height:1.5}
+body .om144-home .buying-bottom p,
+body .om144-home .radio-player>p,
+body .om144-home .radio-bottom,
+body .om144-home .social-post-copy p,
+body .om144-home .social-bottom>span{font-size:13px;line-height:1.7}
+body .om144-home .buying-bottom a,
+body .om144-home .radio-link,
+body .om144-home .social-bottom>a,
+body .om144-home .social-profile{font-size:14px;line-height:1.5}
+body .om144-home .social-post-copy>span{font-size:12px}
+body .om144-home .faq summary{font-size:19px}
+body .om144-home .faq details p{font-size:16px}
+body footer,body footer a,body footer button{font-size:13px;line-height:1.7}
+body .om144-fallback{font-size:13px;line-height:1.7}
+body .om156-search .catalog-results,
+body .om156-search .muted{font-size:15px;line-height:1.6}
+body .om156-search .catalog-filter-toggle,
+body .om156-search .catalog-sort-select,
+body .om156-search .categories button,
+body .om156-search .catalog-filter-grid label{font-size:14px;line-height:1.5}
+body .om156-search .catalog-filter-grid select,
+body .om156-search .catalog-search{font-size:16px}
+body .om156-search .catalog-more{font-size:14px;min-height:48px}
+body .om-product-page p,body .om-product-page li{font-size:16px;line-height:1.75}
+body .om-product-page label,body .om-product-page select,body .om-product-page button{font-size:15px}
+body .om-product-breadcrumb{font-size:14px;line-height:1.6;flex-wrap:wrap}
+body .om-star-drawer{font-size:16px}
+body .om-star-drawer label,body .om-star-drawer select,body .om-star-drawer p,
+body .om-star-drawer .om144-combo-savings,body .om-star-drawer .om144-combo-savings del{font-size:15px;line-height:1.6}
+body .cart-drawer{font-size:16px}
+body .cart-drawer p,body .cart-drawer label,body .cart-drawer input,
+body .cart-drawer select{font-size:16px;line-height:1.5}
+.om171-catalog-link{display:flex;justify-content:center;padding-top:36px}
+.om144-home a.om171-catalog-button{display:inline-flex;align-items:center;justify-content:center;min-height:54px;max-width:100%;padding:18px 28px;background:#173323;color:#f4f5e9;border-radius:4px;font:800 15px/1.5 Manrope,Arial,sans-serif;text-align:center}
+.om144-home a.om171-catalog-button:hover{background:#315428}
+/* El movimiento se detiene al interactuar y respeta la preferencia del sistema. */
+@media(prefers-reduced-motion:reduce){.om146-brand-track{animation:none!important}.spotlight-slide{animation:none!important}}
+@media(max-width:700px){
+ body .header{gap:10px 12px;grid-template-rows:42px 44px auto}
+ body .header nav{font-size:12px;gap:8px;flex-wrap:wrap;justify-content:space-between}
+ body .header .cart-button{font-size:13px}
+ body .om144-home .spotlight-hero .hero-copy p{font-size:15px}
+ body .om144-home .spotlight-details p{font-size:13px}
+ body .om144-home .spotlight-top{font-size:10px;gap:10px}
+ body .om144-home .spotlight-tabs{flex-wrap:wrap}
+ body .om144-home .spotlight-tabs button{min-width:30px}
+ body .om144-home .shop-card-copy{padding:16px 12px}
+ body .om144-home .shop-card-copy h3{font-size:27px}
+ body .om144-home .star-offer-copy h3{font-size:27px}
+ body .om144-home .shop-card-copy small,body .om144-home .star-offer-copy>small{font-size:11px}
+ body .om144-home .shop-card-copy p,body .om144-home .star-offer-copy>p{font-size:13px}
+ body .om144-home .star-price-row strong{font-size:29px}
+ body .om144-home .star-offer-cta{font-size:12px;padding:12px 9px}
+ body .om144-home .availability{font-size:11px}
+ body .om144-home .shop-tag,body .om144-home .star-offer-label{font-size:10px}
+ body .om144-home .products-title{flex-wrap:wrap;gap:15px}
+ body .om144-home .products-title p{max-width:40ch}
+ body .om144-home .om-star-main-btn{font-size:13px}
+ body .om171-catalog-link{padding-top:26px}
+ body .om144-home a.om171-catalog-button{width:100%;font-size:14px;padding:16px}
+}
+/* Reemplaza tamaños pequeños declarados con !important por versiones anteriores. */
+body .om144-home .hero-actions .hero-primary,
+body .om144-home .hero-actions .hero-secondary{font-size:13px!important}
+body .om144-home .star-offer-cta{font-size:13px!important}
+body .om144-home .questions-head p,
+body .om144-home .questions details p{font-size:16px;line-height:1.75}
+body .om144-home .questions summary{font-size:19px;line-height:1.5}
+body .om144-home .discovery-card-top span,
+body .om144-home .discovery-card-bottom span,
+body .om144-home .discovery-card-bottom b,
+body .om144-home .discovery-heading>a,
+body .om144-home .discovery-accessories{font-size:13px;line-height:1.6}
+@media(max-width:700px){body .om144-home .star-offer-cta{font-size:12px!important}}
+body .om156-search .catalog-filter-toggle{color:#f1f0e9;background:#173323}

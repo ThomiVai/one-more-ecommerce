@@ -1,0 +1,19 @@
+/* Movimiento acotado dentro del espacio reservado a la foto en V174.
+   Las propiedades individuales evitan el bloqueo transform:none heredado. */
+@media(max-width:700px) and (prefers-reduced-motion:no-preference){
+ body .om144-home .discovery-card .discovery-image img{
+  scale:.88;
+  transform-origin:50% 55%;
+  animation:om175-product-float 5.4s ease-in-out infinite;
+  will-change:translate,rotate;
+ }
+ body .om144-home .discovery-card:nth-child(2) .discovery-image img{animation-delay:-1.8s}
+ body .om144-home .discovery-card:nth-child(3) .discovery-image img{animation-delay:-3.6s}
+}
+@keyframes om175-product-float{
+  0%,100%{translate:0 3px;rotate:-3deg}
+  50%{translate:0 -4px;rotate:3deg}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){
+ body .om144-home .discovery-card .discovery-image img{animation:none;translate:none;rotate:none;scale:.88;will-change:auto}
+}

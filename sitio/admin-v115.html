@@ -1,0 +1,97 @@
+<!doctype html><html lang="es"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>ONE MORE | Importar compra PDF</title><style>
+*{box-sizing:border-box}body{margin:0;background:#101410;color:#f3f5ef;font:14px system-ui,Arial}main{max-width:1300px;margin:auto;padding:28px 16px}h1{font-size:33px}h1 span,.accent{color:#b5ff63}.card{background:#20281f;border:1px solid #3e493d;border-radius:14px;padding:20px;margin:18px 0}.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.muted,small{color:#b6c3b1}input,select{background:#101710;color:white;border:1px solid #586656;border-radius:7px;padding:10px;font:inherit}input[type=file]{width:100%;max-width:410px}input[type=number]{width:90px}input[type=date]{max-width:180px}button{background:#b5ff63;color:#14200a;font:inherit;font-weight:750;border:0;border-radius:8px;padding:11px 14px;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#354233;color:white}a{color:#b5ff63}table{border-collapse:collapse;width:100%;min-width:1100px}td,th{padding:9px 7px;border-bottom:1px solid #3c473a;text-align:left}th{font-size:12px;color:#b5ff63}.scroll{overflow:auto}td select{max-width:360px;width:100%}.product-picker{min-width:310px;display:grid;gap:5px}.product-picker input{width:100%;padding:8px;border-color:#637b55}.product-picker select{width:100%;max-width:360px}.product-picker small{font-size:11px}.status{color:#b5ff63}.bad{color:#ffac99}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stats div{background:#2b3529;border-radius:9px;padding:12px}.stats b{display:block;font-size:22px}.note{padding:12px;background:#354033;border-left:3px solid #b5ff63;margin:12px 0}@media(max-width:640px){.stats{grid-template-columns:1fr}}</style><link rel="icon" type="image/png" href="/images/brand/one-more-icon.png?v=180"></head><body><main><div class="toolbar"><b>ONE <span class="accent">MORE.</span> / ADMIN</b><a href="/admin-v114.html">Inventario</a><a href="/admin-v110.html">Pedidos</a></div><h1>Compras por <span>PDF</span> · V115.2</h1><p class="muted">V129 · Catálogo unificado. El PDF se lee en tu navegador, no se almacena. Se incluyeron 11 variantes de inventario faltantes del comprobante 00000000, sin publicarlas en la tienda. Importá solo después de revisar productos, cantidades y costos. Stock propio en Cloudflare D1.</p>
+<section class="card"><h2>1. Acceso y comprobante</h2><div class="toolbar"><input id="key" type="password" placeholder="Clave ADMIN_API_KEY" autocomplete="off"><button id="connect">Conectar catálogo</button><input id="pdf" type="file" accept="application/pdf,.pdf" disabled><button id="parse" disabled>Leer PDF</button></div><p id="status" class="status">Conectá el catálogo primero.</p><div class="note">Admite inicialmente notas de pedido con texto seleccionable y columnas como las de Distribuidora Port / Mix It Up. Otros formatos deben revisarse o cargarse manualmente; los PDF escaneados pueden no extraerse.</div></section>
+<section id="preview" class="card" hidden><h2>2. Revisar antes de guardar</h2><div class="toolbar"><label>Proveedor <input id="supplier" value="PROVEEDOR DE EJEMPLO"></label><label>Número de comprobante <input id="number" placeholder="00000000"></label><label>Fecha <input id="date" type="date"></label><label>Total PDF ($) <input id="total" type="number" step="0.01" min="0"></label></div><p class="muted">Conservamos la descripción original del proveedor, aunque no coincida con el nombre de ONE MORE. Buscá por marca, producto, peso o sabor; los productos están ordenados alfabéticamente. Revisá las asociaciones antes de confirmar.</p><div class="scroll"><table><thead><tr><th>Cód.</th><th>Descripción proveedor (editable)</th><th>Unidades</th><th>Costo unitario ($)</th><th>Producto/variante de ONE MORE</th><th>Subtotal</th><th>Acción</th></tr></thead><tbody id="rows"></tbody></table></div><div class="toolbar"><button id="add" class="secondary">+ Agregar renglón</button><button id="save">Confirmar e ingresar stock</button></div><p id="summary" class="status"></p></section>
+<section class="card"><h2>Últimos comprobantes ingresados</h2><div class="scroll"><table><thead><tr><th>Fecha</th><th>Proveedor</th><th>Número</th><th>Renglones</th><th>Total</th><th>Ingreso</th></tr></thead><tbody id="past"><tr><td colspan="6">Conectá el catálogo para ver compras.</td></tr></tbody></table></div></section>
+</main><script type="module">
+const $=id=>document.getElementById(id),safe=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),ARS=x=>Number(x||0).toLocaleString('es-AR',{style:'currency',currency:'ARS'});let catalog=[],key='',lines=[],pdfTotal=0;
+function msg(t,bad=false){$('status').textContent=t;$('status').className=bad?'bad':'status'}
+async function api(path,opts={}){
+ const headers={...(opts.headers||{}),...(opts.body?{'Content-Type':'application/json'}:{})};
+ if(key)headers.Authorization='Bearer '+key;
+ const r=await fetch(path,{...opts,credentials:'same-origin',headers});
+ const d=await r.json().catch(()=>({}));
+ if(!r.ok)throw Error(d.error||'Error HTTP '+r.status);
+ return d;
+}
+async function past(){const d=await api('/api/admin/purchases');$('past').innerHTML=(d.purchases||[]).map(x=>`<tr><td>${safe(x.document_date)}</td><td>${safe(x.supplier)}</td><td>${safe(x.document_number)}</td><td>${x.line_count}</td><td>${ARS(x.document_total_cents/100)}</td><td>${safe(x.created_at)}</td></tr>`).join('')||'<tr><td colspan="6">Todavía no hay compras ingresadas.</td></tr>'}
+async function connectCatalog(){
+ try{
+  msg('Conectando catálogo…');
+  const d=await api('/api/admin/own-stock');
+  catalog=(d.variants||[]).filter(p=>!p.archived).sort((a,b)=>optionTitle(a).localeCompare(optionTitle(b),'es',{sensitivity:'base',numeric:true}));
+  await past();$('pdf').disabled=false;$('parse').disabled=false;
+  msg('Conectado. Catálogo de '+catalog.length+' variantes. Subí un PDF de compra.');
+ }catch(e){msg(e.message,true)}
+}
+$('connect').onclick=async()=>{key=$('key').value.trim();$('key').value='';await connectCatalog()};
+function money(x){let a=String(x||'').replace(/[^0-9,.]/g,'');if(!a)return 0;if(a.includes(',')&&a.includes('.'))a=a.replaceAll('.','').replace(',','.');else if(a.includes(','))a=a.replace(',','.');else if(/^\d{1,3}(\.\d{3})+$/.test(a))a=a.replaceAll('.','');return Number(a)||0}
+function extract(linesText){let result=[];for(let l of linesText){let t=l.replace(/\s+/g,' ').trim();if(!/^\d{1,4}\s+[A-Za-z0-9_]+\s+/.test(t))continue;let m=t.match(/^(\d{1,4})\s+([A-Za-z0-9_-]+)\s+(.+?)\s+\$?\s*([0-9][0-9.,]*)\s+0%\s+\$?\s*([0-9][0-9.,]*)\s+0%\s+\$?\s*([0-9][0-9.,]*)$/);if(!m)continue;result.push({supplier_code:m[2],description:m[3],quantity:Number(m[1]),unit_cost:money(m[4]),web:''});}return result;}
+async function parsePdf(file){
+ const mod=await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.mjs');
+ mod.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.mjs';
+ const doc=await mod.getDocument({data:new Uint8Array(await file.arrayBuffer())}).promise;
+ let extracted=[],all='';
+ for(let n=1;n<=Math.min(8,doc.numPages);n++){
+  const pg=await doc.getPage(n), cont=await pg.getTextContent();
+  const parts=cont.items.filter(x=>x.str?.trim()).map(x=>({x:x.transform[4],y:x.transform[5],str:x.str.replace(/\s+/g,' ').trim()}));
+  all+=' '+parts.map(x=>x.str).join(' ');
+  // Identificamos cada renglón por la pareja cantidad/código en sus columnas.
+  const codes=parts.filter(p=>p.x>=73&&p.x<115&&/^[A-Za-z0-9_-]{1,20}$/.test(p.str) && p.y<pg.view[3]-70)
+   .map(p=>({...p,q:parts.find(a=>a.x>=22&&a.x<70&&Math.abs(a.y-p.y)<3.8&&/^\d{1,4}$/.test(a.str))}))
+   .filter(p=>p.q&&p.y<pg.view[3]-70);
+  for(let i=0;i<codes.length;i++){
+   const r=codes[i],previous=i?codes[i-1].y:Infinity,next=i+1<codes.length?codes[i+1].y:-Infinity;
+   const upper=i? (previous+r.y)/2: r.y+15, lower=i+1?(next+r.y)/2:r.y-14;
+   const cells=parts.filter(p=>p.y>=lower&&p.y<=upper);
+   const descriptions=cells.filter(p=>p.x>=125&&p.x<302).sort((a,b)=>b.y-a.y||a.x-b.x).map(p=>p.str);
+   // Si el proveedor cortó una palabra entre renglones (CHOCO/LATE, POT/E), unirla sin inventar nombres.
+   let description='';for(const word of descriptions){if(!description){description=word;continue}
+     if(word.split(' ')[0].length<=5&&/[A-Za-zÁÉÍÓÚáéíóú]$/.test(description)) description+=word.split(' ')[0]+(word.includes(' ')?' '+word.split(' ').slice(1).join(' '):'');
+     else description+=' '+word;
+   }
+   const amount=cells.filter(p=>p.x>=307&&p.x<376).sort((a,b)=>Math.abs(a.y-r.y)-Math.abs(b.y-r.y)).find(p=>/[0-9]/.test(p.str));
+   if(!amount||!description)continue;
+   extracted.push({supplier_code:r.str,description,quantity:Number(r.q.str),unit_cost:money(amount.str),web:''});
+  }
+ }
+ const number=all.match(/Nro[:\s]+([0-9]{5,})/i),date=all.match(/Fecha Emisi[oó]n[:\s]*(\d{2})\/(\d{2})\/(\d{4})/i),total=all.match(/Importe Total[:\s]*\$?\s*([0-9.,]+)/i);
+ return {rows:extracted,number:number?.[1]||'',date:date?`${date[3]}-${date[2]}-${date[1]}`:'',total:money(total?.[1])};
+}
+$('parse').onclick=async()=>{const f=$('pdf').files[0];if(!f)return msg('Seleccioná un archivo',true);if(f.size>8*1024*1024)return msg('El PDF supera 8 MB',true);try{msg('Extrayendo texto del PDF…');let d=await parsePdf(f);lines=d.rows;pdfTotal=d.total;$('number').value=d.number;$('date').value=d.date;$('total').value=d.total||'';$('preview').hidden=false;render();msg(`Lectura inicial: ${lines.length} renglones detectados. Corroborá todo con el comprobante antes de importar.`)}catch(e){$('preview').hidden=false;lines=[];render();msg('No se pudo extraer automáticamente. Podés agregar renglones manualmente. '+e.message,true)}};
+function optionTitle(p){return [p.brand,p.name,p.size,p.virtualVariant?'Sin SKU físico todavía':p.needsIdentification?'Por identificar':''].filter(Boolean).join(' · ')}
+function productOptions(query='', selected=''){
+ const clean=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+ const q=clean(query), words=q.split(/\s+/).filter(Boolean);
+ const pool=catalog.filter(p=>p.id===selected || words.every(w=>clean(optionTitle(p)).includes(w)));
+ return '<option value="">— Elegir variante exacta —</option>'+pool.map(p=>`<option value="${safe(p.commercialId||p.physicalId)}" ${p.virtualVariant?'disabled':''}>${safe(optionTitle(p))}</option>`).join('');
+}
+function render(){
+ $('rows').innerHTML=lines.map((l,i)=>`<tr data-i="${i}"><td><input data-f="supplier_code" style="width:80px" value="${safe(l.supplier_code)}"></td><td><input data-f="description" style="width:245px" value="${safe(l.description)}"></td><td><input data-f="quantity" type="number" min="1" step="1" value="${l.quantity}"></td><td><input data-f="unit_cost" type="number" min="0" step="0.01" value="${l.unit_cost}"></td><td><div class="product-picker"><input data-product-search type="search" placeholder="Buscar marca, producto, sabor o peso…" aria-label="Buscar producto ONE MORE"><select data-f="web">${productOptions('',l.web)}</select><small data-count>${catalog.length} productos</small></div></td><td data-sub>${ARS(l.quantity*l.unit_cost)}</td><td><button class="secondary" data-remove="${i}">Quitar</button></td></tr>`).join('');
+ document.querySelectorAll('#rows tr').forEach((r,i)=>{
+  let select=r.querySelector('select[data-f="web"]'),search=r.querySelector('[data-product-search]'),counter=r.querySelector('[data-count]');
+  select.value=lines[i].web||'';
+  search.addEventListener('input',()=>{
+   const value=select.value;
+   select.innerHTML=productOptions(search.value,value);select.value=value;
+   const matches=catalog.filter(p=>search.value.trim().normalize('NFD').toLowerCase().split(/\s+/).filter(Boolean).every(word=>optionTitle(p).normalize('NFD').toLowerCase().includes(word)));
+   counter.textContent=matches.length+' coincidencias';
+  });
+  r.querySelectorAll('[data-f]').forEach(el=>el.onchange=()=>{let f=el.dataset.f;lines[i][f]=['quantity','unit_cost'].includes(f)?Number(el.value):el.value;r.querySelector('[data-sub]').textContent=ARS(lines[i].quantity*lines[i].unit_cost);summary()});
+ });
+ document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{lines.splice(+b.dataset.remove,1);render()});summary();
+}
+function summary(){let sub=lines.reduce((a,l)=>a+l.quantity*l.unit_cost,0);$('summary').textContent=`${lines.length} renglones · ${lines.reduce((a,l)=>a+(l.quantity||0),0)} unidades · subtotal calculado ${ARS(sub)} · total del PDF ${ARS($('total').value)}. ${Math.abs(sub-Number($('total').value))>.02?'⚠ Los importes no coinciden.':''}`}
+$('total').oninput=summary;$('add').onclick=()=>{lines.push({supplier_code:'',description:'',quantity:1,unit_cost:0,web:''});render()};
+$('save').onclick=async()=>{try{if(!lines.length)throw Error('No hay renglones');let ids=lines.map(l=>l.web);if(ids.some(x=>!x))throw Error('Asociá todos los renglones a su variante de ONE MORE');if(new Set(ids).size!==ids.length)throw Error('Dos renglones apuntan a la misma variante: agrupalos antes de importar');let data={supplier:$('supplier').value.trim(),document_number:$('number').value.trim(),document_date:$('date').value,document_total_cents:Math.round(Number($('total').value)*100),lines:lines.map(l=>({product_id:l.web,supplier_code:l.supplier_code,description:l.description,quantity:l.quantity,unit_cost_cents:Math.round(l.unit_cost*100),line_total_cents:Math.round(l.quantity*l.unit_cost*100)}))};if(!confirm(`¿Confirmás ingreso de ${lines.reduce((a,l)=>a+l.quantity,0)} unidades en ${lines.length} variantes? Se SUMARÁN al stock existente y no se puede deshacer en bloque.`))return;$('save').disabled=true;let r=await api('/api/admin/purchases',{method:'POST',body:JSON.stringify(data)});await past();msg('Compra guardada: '+r.units+' unidades sumadas. Número interno '+r.id);$('preview').hidden=true;lines=[]}catch(e){msg(e.message,true);$('save').disabled=false}finally{$('save').disabled=false}};
+
+(async()=>{try{
+ const r=await fetch('/api/admin/session',{credentials:'same-origin'});
+ const d=await r.json();
+ if(d.authenticated){
+  $('key').value='';$('key').placeholder='Sesión activa';
+  $('connect').textContent='Recargar catálogo';
+  await connectCatalog();
+ }
+}catch(e){msg('No se pudo verificar sesión: '+e.message,true)}})();
+</script></body></html>

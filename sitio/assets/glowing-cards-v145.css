@@ -1,0 +1,10 @@
+/* Borde luminoso adaptado a ONE MORE. No tapa imágenes ni intercepta botones. */
+.om145-glow-card{position:relative;--om145-angle:0deg;--om145-active:0;isolation:isolate}
+.om145-glow-card::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;border-radius:inherit;padding:2px;background:conic-gradient(from calc(var(--om145-angle) - 40deg),transparent 0deg,#7acb3d 18deg,#b5ff63 30deg,#f2ffd8 40deg,#b5ff63 50deg,#7acb3d 62deg,transparent 80deg,transparent 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:var(--om145-active);filter:drop-shadow(0 0 5px #a4f755b0);transition:opacity .22s ease}
+.om145-glow-card:focus-within::after{opacity:1;background:linear-gradient(125deg,#90cf5b,#d5ffad,#77ad41)}
+.om145-photo-pending-holder{position:relative!important;overflow:hidden}
+.om145-photo-pending{position:absolute;inset:0;display:grid;place-items:center;padding:18px;background:linear-gradient(145deg,#edf1e5,#e1e8d6);color:#60744b;font:800 10px/1.6 Manrope,Arial,sans-serif;letter-spacing:1px;text-align:center;pointer-events:none}
+.spotlight-product .om145-photo-pending,.om-star-scene .om145-photo-pending{background:#172317;color:#b7d198}
+@media(hover:none),(pointer:coarse){.om145-glow-card::after{opacity:0;transition:none}.om145-glow-card:focus-within::after{opacity:1}}
+@media(prefers-reduced-motion:reduce){.om145-glow-card::after{transition:none;opacity:0}.om145-glow-card:hover::after,.om145-glow-card:focus-within::after{opacity:1;background:linear-gradient(125deg,#90cf5b,#d5ffad,#77ad41)}}
+@media(forced-colors:active){.om145-glow-card::after{display:none}}

@@ -1,0 +1,16 @@
+/* V180: fotos y navegación solamente en Ofertas. Mantiene fondos V179. */
+body .om144-home .star-offers-grid.om180-offer-track{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc((100% - 54px)/4);gap:18px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#b5ff63 #253824;overscroll-behavior-x:contain;padding:10px 0 14px;}
+body .om144-home .om180-offer-track>.om147-perspective{min-width:0;scroll-snap-align:start;}
+body .om144-home .om180-offer-track .star-offer-image{padding:24px 12px 8px;}
+body .om144-home .om180-offer-track .star-offer-photo{overflow:hidden;}
+body .om144-home .om180-offer-track .star-offer.om180-product-om-new-1bcbc748-afcb-4193-b984-e604b7c3dcb7 .om144-photo{scale:1.14;}
+body .om144-home .om180-offer-track .star-offer.om180-product-star-crea-doy-300-ne .om144-photo{scale:1.08;}
+.om180-offer-controls{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:0 0 8px;color:#b5ff63;}
+.om180-offer-controls span{font:600 11px/1.4 Manrope,sans-serif;letter-spacing:.05em;}
+.om180-offer-controls button{width:44px;height:44px;display:grid;place-items:center;border:1px solid #91b16f;background:transparent;color:#b5ff63;border-radius:50%;cursor:pointer;}
+.om180-offer-controls button:disabled{opacity:.3;cursor:default;}
+.om180-offer-controls button:focus-visible,.om180-offer-track:focus-visible{outline:2px solid #b5ff63;outline-offset:3px;}
+.om180-offer-controls svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+@media(max-width:1000px){body .om144-home .star-offers-grid.om180-offer-track{grid-auto-columns:calc((100% - 18px)/2);}}
+@media(max-width:700px){body .om144-home .star-offers-grid.om180-offer-track{gap:12px;grid-auto-columns:calc((100% - 12px)/2);}body .om144-home .om180-offer-track .star-offer-image{padding:23px 8px 5px;}.om180-offer-controls{justify-content:space-between;}.om180-offer-controls span{font-size:9px;}.om180-offer-controls button{flex:none;}}
+@media(prefers-reduced-motion:reduce){.om180-offer-track{scroll-behavior:auto;}}

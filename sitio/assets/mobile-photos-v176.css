@@ -1,0 +1,6 @@
+/* Fotos con mayor presencia; conserva el movimiento de V175. */
+@media(max-width:700px){
+ body .om144-home .discovery-card{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr)}
+ body .om144-home .discovery-card .discovery-image img{scale:1.05}
+ body .om144-home .discovery-card:nth-child(3) .discovery-image img{scale:1.22}
+}

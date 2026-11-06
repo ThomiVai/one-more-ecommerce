@@ -1,0 +1,31 @@
+/* La card es una sola superficie: no se elevan los paneles blancos ni el texto. */
+.om144-home .om147-card .star-offer-image,.om144-home .om147-card .star-offer-copy,.om144-home .om147-card .star-offer-label{transform:none!important;transition:none!important}
+.om144-home .om147-card .star-offer-photo,.om144-home .om147-card .star-offer-image,.om144-home .om147-card .om144-photo{transform-style:preserve-3d}
+.om144-home .om147-card .om144-photo{overflow:visible}
+.om144-home .om147-card .om144-photo>img,.om144-home .om147-card .om144-photo>svg{transform:translateZ(0)!important;transition:transform .25s ease-out!important}
+.om144-home .om147-card[data-om147-tilted=true] .om144-photo>img,.om144-home .om147-card[data-om147-tilted=true] .om144-photo>svg{transform:translateZ(24px)!important}
+.om144-home.paused .om147-card .om144-photo>img,.om144-home.paused .om147-card .om144-photo>svg{transform:none!important;transition:none!important}
+@media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){.om144-home .om147-card .om144-photo>img,.om144-home .om147-card .om144-photo>svg{transform:none!important;transition:none!important}}
+
+/* Un mismo grupo distribuye WhatsApp y el acceso al pedido: sin posiciones que se crucen. */
+.om148-dock{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:90;display:flex;flex-direction:column;align-items:flex-end;gap:10px;max-width:calc(100vw - 48px);pointer-events:none;font-family:Manrope,Arial,sans-serif}
+.om148-dock[hidden]{display:none!important}
+.om148-dock>*{pointer-events:auto}
+.om148-dock .om-floating-cart{position:static;max-width:100%;margin:0;animation:none}
+.om148-dock .mobile-cart{position:static;inset:auto;width:100%;margin:0;animation:none}
+.om148-whatsapp{display:inline-flex;align-items:center;gap:10px;background:#142016;color:#f1f0e9!important;border:1px solid #70984c;border-radius:50px;padding:7px 17px 7px 7px;box-shadow:0 8px 22px #0004;text-decoration:none;min-height:54px;transition:background .2s}
+.om148-whatsapp:hover{background:#243a1b}
+.om148-whatsapp:focus-visible{outline:3px solid #b5ff63;outline-offset:4px}
+.om148-whatsapp-icon{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;background:#b5ff63;color:#142016}
+.om148-whatsapp-copy{display:flex;flex-direction:column;gap:3px;line-height:1.2}
+.om148-whatsapp-copy strong{font-size:12px;font-weight:800}
+.om148-whatsapp-copy small{font-size:9px;color:#bdcbb4}
+body:has(.om148-dock) .toast{bottom:calc(200px + env(safe-area-inset-bottom,0px))}
+@media(max-width:700px){
+ .om148-dock{left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:none}
+ .om148-whatsapp{padding:6px;min-width:54px;min-height:54px}
+ .om148-whatsapp-copy{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .om148-dock .mobile-cart{border:1px solid #5b7a42;border-radius:10px;padding:12px 14px;gap:12px;box-shadow:0 8px 22px #0004}
+ .om148-dock .mobile-cart button{white-space:nowrap;gap:8px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.om148-whatsapp{transition:none}}

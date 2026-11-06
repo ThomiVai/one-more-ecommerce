@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ONE MORE | Vincular inventario V128.4</title>
+<style>
+:root{color-scheme:dark;--bg:#101511;--card:#1b251c;--soft:#233226;--line:#3b503b;--lime:#b5ff63;--txt:#f1f4e9;--muted:#adbdac}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1280px;margin:auto;padding:clamp(16px,3vw,38px)}h1{font-size:clamp(26px,3vw,34px);line-height:1.1;letter-spacing:-.8px;margin:0 0 8px}h2{font-size:17px;margin:0 0 8px}p{color:var(--muted);margin:7px 0 15px}small,.muted{color:var(--muted)}.topline{font-size:11px;letter-spacing:2px;color:var(--lime);font-weight:800;margin-bottom:13px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;margin-top:20px}
+.panel{border:1px solid var(--line);background:var(--card);border-radius:13px;padding:17px;min-width:0}.note{background:#263121;border-left:3px solid var(--lime);padding:12px 14px;border-radius:5px;color:#dce8d7}
+button,input,select{font:inherit}button{background:var(--lime);color:#0d160e;border:none;border-radius:8px;padding:10px 14px;font-weight:800;cursor:pointer}button.alt{background:var(--soft);color:var(--txt);border:1px solid var(--line)}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lime)}
+input,select{width:100%;background:#111b13;color:var(--txt);border:1px solid var(--line);border-radius:7px;padding:11px 12px}label{display:block;color:var(--muted);font-size:12px;margin:12px 0 5px}.items{height:390px;overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:8px}.item{width:100%;text-align:left;background:none;color:var(--txt);border-radius:0;border-bottom:1px solid #334734;padding:12px;display:block;font-weight:400}.item:hover,.item.selected{background:#30452d}.item strong,.item span{display:block}.item span{color:var(--muted);font-size:12px}.item.selected{box-shadow:inset 3px 0 0 var(--lime)}.chip{display:inline-block;padding:4px 8px;border-radius:30px;background:#2b402d;color:#cff5ad;font-size:11px;font-weight:700}.warn{color:#ffce95}.info{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:8px;background:#142017;min-height:95px}.cardline{border-top:1px solid var(--line);margin-top:15px;padding-top:13px}.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.stat{background:var(--card);border:1px solid var(--line);padding:14px;border-radius:8px}.stat strong{display:block;font-size:22px;color:var(--lime)}.stat span{font-size:11px;color:var(--muted)}.help{font-size:12px;color:var(--muted)}#message{min-height:28px;word-break:break-word}#message.error{color:#ffc2a7}#message.ok{color:#b5ff63}
+@media(max-width:760px){.cols{grid-template-columns:1fr}.items{height:280px}.statgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.stat{padding:9px}}
+</style><link rel="icon" type="image/png" href="/images/brand/one-more-icon.png?v=180"></head>
+<body><main>
+<div class="row"><div><div class="topline">ONE MORE / INVENTARIO / V128.4 · STAGING</div><h1>Vincular catálogo y stock</h1></div><button id="reload" class="alt">Actualizar datos</button></div>
+<p>Asociá una variante comercial con un artículo de inventario físico, sin cambiar cantidades ni registrar compras o ventas.</p>
+<div class="note"><strong>ONE MORE trabaja a pedido.</strong> Un producto con 0 unidades puede seguir publicado y recibiendo consultas. Esta pantalla <strong>no bloquea ventas ni descuenta existencias</strong>.</div>
+<div class="statgrid"><div class="stat"><strong id="countDirect">—</strong><span>Vínculos directos por ID</span></div><div class="stat"><strong id="countMapped">—</strong><span>Vínculos manuales</span></div><div class="stat"><strong id="countMissing">—</strong><span>Fichas comerciales sin vínculo</span></div></div>
+<section class="panel" style="margin-top:18px"><div class="row"><div><h2>Inventario físico: coincidencias y sabores para confirmar</h2><p class="help">Que un SKU aparezca aquí <strong>NO</strong> significa que falte en la web. Buscamos coincidencias entre las fichas reales de la tienda y el stock. Si el PDF no indicó un sabor, podés identificar el sabor del envase físico. Solo se guardan vínculos con tu confirmación.</p></div><span id="orphanCount" class="chip">—</span></div><div id="orphanList" class="help"></div><details style="margin-top:16px"><summary style="cursor:pointer;font-weight:700">Ver artículos históricos (0 unidades) <span id="historicCount"></span></summary><div id="historicList" class="help" style="margin-top:10px"></div></details></section>
+<div class="cols">
+<section class="panel"><h2>1. Elegí el producto comercial</h2><p class="help">La tienda ya tiene variantes por sabor. Si el PDF no indicó el sabor físico, vas a ver las variantes comerciales para elegir la correcta sin crear productos nuevos.</p>
+<label for="searchProducts">Buscar en el catálogo</label><input id="searchProducts" placeholder="Ej.: STAR vainilla, ENA 300 g..." autocomplete="off"/>
+<label for="filter">Mostrar</label><select id="filter"><option value="candidates">Vinculables (incluye sabor por verificar)</option><option value="missing">Todas las fichas sin vínculo</option><option value="all">Todos los productos</option><option value="linked">Vinculados</option></select>
+<div id="productList" class="items" role="listbox" aria-label="Productos comerciales"></div>
+<div id="productDetail" class="info"><span class="muted">Seleccioná un producto de la lista.</span></div>
+</section>
+<section class="panel"><h2>2. Elegí el SKU de inventario</h2><p class="help">Elegí el artículo comprado que coincida con el producto comercial. Si figura «sabor por verificar», confirmá primero el sabor que está impreso en el envase.</p>
+<label for="searchStock">Buscar artículo físico</label><input id="searchStock" placeholder="Ej.: creatina STAR doypack uva" autocomplete="off"/>
+<label for="stockChoice">Artículo a vincular</label><select id="stockChoice"><option value="">Primero seleccioná un producto</option></select>
+<div id="stockDetail" class="info"><span class="muted">Se mostrará la cantidad física registrada, sin modificarla.</span></div>
+<div class="cardline row"><button id="save" disabled>Guardar vínculo</button><button id="unlink" class="alt" disabled>Desvincular</button></div>
+<p id="message" role="status" aria-live="polite"></p>
+<div class="cardline help"><strong>Importante:</strong> esta versión permite revisar y guardar asociaciones. Las compras PDF y las ventas todavía operan sobre los IDs de inventario anteriores; no se convierten automáticamente mediante este vínculo. Un producto nuevo sin SKU físico puede continuar vendiéndose a pedido.</div>
+</section>
+</div>
+<p class="help" style="margin-top:20px">Preproducción únicamente. Datos tomados de D1. Si todavía no aparece esta sección, ejecutá <code>schema-v128.sql</code> en la base <code>onemore-staging-db</code>.</p>
+</main><script type="module">
+import {matchInfo,rankedMatches,rankedUnknownFlavorCandidates,flavorOf,confirmableUnknownFlavor} from "/assets/stock-matching-v1282.js";
+'use strict';
+let catalog=[],inventory=[],links=[],stocks=[],archived=[],selectedId=null;
+const $=id=>document.getElementById(id),byId=arr=>new Map(arr.map(x=>[x.id,x]));
+const fmt=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n);
+const safe=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+const label=x=>`${x.brand||''} · ${x.name||''} · ${x.size||''}`.replace(/\s+/g,' ').trim();
+const currentLink=id=>links.find(x=>x.catalog_id===id);
+const physicalId=id=>currentLink(id)?.stock_id||(inventory.some(x=>x.id===id)?id:null);
+const isDirect=id=>inventory.some(x=>x.id===id);
+const unverifiedMatch=(stock,product)=>confirmableUnknownFlavor(stock,product);
+function candidateStockFor(product){
+ const used=new Set(links.filter(x=>x.catalog_id!==product.id).map(x=>x.stock_id));
+ return inventory.filter(x=>!archived.includes(x.id)&&!used.has(x.id)&&(!catalog.some(p=>p.id===x.id)||x.id===physicalId(product.id))&&(matchInfo(x,product).ok||unverifiedMatch(x,product)));
+}
+function requiresFlavorConfirmation(stock,product){return !!stock&&!!product&&!matchInfo(stock,product).ok&&unverifiedMatch(stock,product)}
+function stats(){const direct=catalog.filter(p=>isDirect(p.id)).length;const mapped=links.length;$('countDirect').textContent=direct;$('countMapped').textContent=mapped;$('countMissing').textContent=catalog.filter(p=>!physicalId(p.id)).length;}
+function message(t,error=false){$('message').textContent=t;$('message').className=error?'error':'ok';}
+async function api(path,opts={}){const response=await fetch(path,{credentials:'same-origin',cache:'no-store',...opts});const raw=await response.text();let data;try{data=JSON.parse(raw)}catch{throw Error('El servidor respondió HTML o texto en vez de JSON ('+response.status+').')}if(!response.ok)throw Error(data.error||'Error '+response.status);return data;}
+async function load(){message('');$('reload').disabled=true;try{
+ const [commercial,physicalState]=await Promise.all([api('/api/admin/catalog'),api('/api/admin/stock-links')]);
+ const state=physicalState,inventoryRaw=physicalState.physical||[];
+ catalog=(commercial.items||[]).filter(p=>!String(p.id||'').startsWith('combo-')).sort((a,b)=>label(a).localeCompare(label(b),'es'));
+ inventory=inventoryRaw;links=state.links||[];stocks=state.stock||[];archived=state.archived||[];
+ if(selectedId&&!catalog.some(x=>x.id===selectedId))selectedId=null;
+ stats();renderOrphans();renderProducts();renderDetails();
+ }catch(e){message(e.message,true);$('productList').textContent='No se pudo cargar el catálogo. Iniciá sesión en el Back Office y verificá el esquema SQL.'}finally{$('reload').disabled=false}}
+function renderOrphans(){
+ const list=$('orphanList'),history=$('historicList');list.replaceChildren();history.replaceChildren();
+ const linkedStock=new Set(links.map(x=>x.stock_id));const directStock=new Set(catalog.map(x=>x.id));
+ const orphan=inventory.filter(x=>!linkedStock.has(x.id)&&!directStock.has(x.id)&&!archived.includes(x.id));
+ const qty=x=>Number(stocks.find(r=>r.product_id===x.id)?.quantity||0);
+ const active=orphan.filter(x=>qty(x)>0).sort((a,b)=>qty(b)-qty(a)),historical=orphan.filter(x=>qty(x)<=0);
+ $('orphanCount').textContent=active.length+' con existencias';$('historicCount').textContent='('+historical.length+')';
+ if(!active.length){list.textContent='No hay SKU con unidades positivas pendientes de vínculo.'}
+ const occupied=new Set(links.map(x=>x.catalog_id));
+ const show=(x,target)=>{
+  const row=document.createElement('div');row.className='stock-suggestion';row.style.cssText='padding:13px 0;border-top:1px solid #3b503b';
+  const heading=document.createElement('div');heading.className='row';const name=document.createElement('strong');name.textContent=label(x);const count=document.createElement('span');count.className='chip';count.textContent=qty(x)+' u.';heading.append(name,count);row.append(heading);
+  const matches=rankedMatches(x,catalog).filter(v=>!physicalId(v.product.id)&&!occupied.has(v.product.id));
+  const flavorOptions=rankedUnknownFlavorCandidates(x,catalog).filter(v=>!physicalId(v.id)&&!occupied.has(v.id));
+  const hint=document.createElement('div');hint.className='help';hint.style.margin='5px 0';
+  if(!matches.length){hint.textContent=flavorOptions.length?'El PDF no especificó el sabor. Confirmá el que figura en el envase físico; NO se asume que sea neutro.':'Sin variante comercial inequívoca detectada. Verificá sabor, fórmula y presentación antes de crear otra ficha.';row.append(hint)}
+  else{hint.textContent=matches.length>1?'Hay varias coincidencias posibles. Revisá marca, fórmula, gramaje y sabor.':'Coincidencia comercial encontrada. Falta tu confirmación.';row.append(hint);
+   for(const m of matches.slice(0,3)){
+    const b=document.createElement('button');b.type='button';b.className='alt';b.style.cssText='display:block;text-align:left;width:100%;margin:5px 0;padding:7px 10px';
+    b.textContent=(m.confidence==='exact'?'✓ Coincidencia clara: ':'? Revisar: ')+label(m.product);
+    b.onclick=()=>{selectedId=m.product.id;$('filter').value='all';$('searchProducts').value='';$('searchStock').value='';renderProducts();renderDetails();$('stockChoice').value=x.id;updateStockDetails();$('save').disabled=false;$('productDetail').scrollIntoView({behavior:'smooth',block:'center'});message('Revisá los dos artículos antes de pulsar Guardar vínculo. No se guardó ningún cambio.')};row.append(b)
+   }
+  }
+  if(flavorOptions.length){
+   const select=document.createElement('select');select.setAttribute('aria-label','Sabor real del producto '+label(x));select.style.cssText='margin:7px 0';
+   const blank=document.createElement('option');blank.value='';blank.textContent='Elegí el sabor REAL que figura en el envase';select.append(blank);
+   for(const p of flavorOptions){const opt=document.createElement('option');opt.value=p.id;opt.textContent=label(p)+' · Precio web: '+fmt(p.price);select.append(opt)}
+   row.append(select);
+   const btn=document.createElement('button');btn.textContent='Confirmar sabor y vincular';btn.type='button';btn.onclick=async()=>{
+    const p=flavorOptions.find(y=>y.id===select.value);if(!p)return message('Primero elegí el sabor físico correcto.',true);
+    const flavor=flavorOf(p);
+    if(!confirm('IMPORTANTE: ¿comprobaste el envase físico y confirmás que la unidad de '+label(x)+' es realmente '+flavor.toUpperCase()+'?\n\nSe vinculará a '+label(p)+' y quedará visible el precio web '+fmt(p.price)+'. No cambia stock ni costo.'))return;
+    btn.disabled=true;
+    try{await api('/api/admin/stock-links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resolve-flavor',catalog_id:p.id,stock_id:x.id,confirmed_flavor:flavor})});await load();message('Sabor confirmado y precio comercial vinculado. Stock y costo sin cambios.')}catch(e){message(e.message,true);btn.disabled=false}
+   };row.append(btn);
+   const note=document.createElement('p');note.className='help';note.textContent='Este SKU de compras corresponde a una sola variante física. No lo reutilices para ingresar otros sabores desde PDF: necesitaremos SKUs separados.';row.append(note);
+  }
+  target.append(row);
+ };
+ active.forEach(x=>show(x,list));historical.forEach(x=>show(x,history));
+}
+function renderProducts(){const box=$('productList');box.replaceChildren();const q=$('searchProducts').value.toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();const words=q.split(/\s+/).filter(Boolean);const filter=$('filter').value;let items=catalog.filter(p=>{const hay=(label(p)+' '+p.id+' '+(String(p.size||'').includes('2 lb')?'910 g 907 g':'')).toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,'');return words.every(w=>hay.includes(w))});if(filter==='candidates')items=items.filter(p=>!physicalId(p.id)&&candidateStockFor(p).some(s=>Number(stocks.find(q=>q.product_id===s.id)?.quantity||0)>0));else if(filter==='missing')items=items.filter(p=>!physicalId(p.id));else if(filter==='linked')items=items.filter(p=>physicalId(p.id));
+ if(!items.length){const msg=document.createElement('p');msg.style.padding='15px';msg.textContent='No se encontraron fichas con este filtro.';box.append(msg);return;}
+ for(const p of items.slice(0,100)){const item=document.createElement('button');item.type='button';item.className='item'+(p.id===selectedId?' selected':'');item.setAttribute('role','option');item.setAttribute('aria-selected',p.id===selectedId?'true':'false');const title=document.createElement('strong');title.textContent=label(p);const detail=document.createElement('span');detail.textContent=`${physicalId(p.id)?'Vinculado':'Sin vínculo'} · ${Number.isFinite(Number(p.price))&&Number(p.price)>0?fmt(Number(p.price))+' · ':''}${p.id}`;item.append(title,detail);item.onclick=()=>{selectedId=p.id;renderProducts();renderDetails()};box.append(item)}
+ if(items.length>100){const msg=document.createElement('p');msg.style.padding='10px';msg.textContent=`Mostrando 100 de ${items.length}; refiná la búsqueda.`;box.append(msg)}
+}
+function renderDetails(){const p=catalog.find(x=>x.id===selectedId),el=$('productDetail'),detail=$('stockDetail'),sel=$('stockChoice');$('save').disabled=true;$('unlink').disabled=true;sel.replaceChildren();
+ if(!p){el.textContent='Seleccioná un producto de la lista.';detail.textContent='Se mostrará la cantidad física registrada, sin modificarla.';return}
+ const id=physicalId(p.id),direct=isDirect(p.id),link=currentLink(p.id);
+ el.innerHTML=`<strong>${safe(label(p))}</strong><div class="help">ID comercial: ${safe(p.id)} · Estado: ${safe(p.status||'sin estado')}</div><div style="margin-top:6px"><span class="chip">${direct?'Vínculo automático':link?'Vínculo manual': 'Pendiente'}</span>${Number.isFinite(Number(p.price))&&Number(p.price)>0?' · Precio web: <strong>'+fmt(Number(p.price))+'</strong>':''}</div>`;
+ const prior=$('searchStock').value.toLocaleLowerCase('es').trim();
+ const options=candidateStockFor(p).filter(x=>!prior||label(x).toLocaleLowerCase('es').includes(prior));
+ const blank=document.createElement('option');blank.value='';blank.textContent=direct?'Vinculación directa (no requiere cambios)':'Seleccioná una variante física';sel.append(blank);
+ for(const x of options){const op=document.createElement('option');op.value=x.id;op.textContent=label(x)+(requiresFlavorConfirmation(x,p)?' — confirmar sabor del envase':'');sel.append(op)}
+ sel.disabled=direct;sel.value=(id&&options.some(x=>x.id===id))?id:'';
+ $('save').disabled=direct||!sel.value||sel.value===id;updateSaveLabel();
+ $('unlink').disabled=!link;
+ updateStockDetails();
+}
+function updateSaveLabel(){const p=catalog.find(x=>x.id===selectedId),s=inventory.find(x=>x.id===$('stockChoice').value);$('save').textContent=requiresFlavorConfirmation(s,p)?'Confirmar sabor y vincular':'Guardar vínculo'}
+function updateStockDetails(){const p=catalog.find(x=>x.id===selectedId),sid=$('stockChoice').value,el=$('stockDetail');const x=inventory.find(x=>x.id===sid),s=stocks.find(x=>x.product_id===sid);const direct=p&&isDirect(p.id),prior=p?physicalId(p.id):null;
+ if(!p){el.textContent='Seleccioná un producto comercial.';return}
+ if(direct){const quantity=stocks.find(x=>x.product_id===p.id)?.quantity??0;el.innerHTML=`<strong>Vínculo directo por ID</strong><div class="help">Cantidad física registrada: ${quantity} · No hace falta vincular este producto.</div>`;return}
+ if(!x){el.textContent=prior?'SKU comercial vinculado. El sabor fue identificado a partir de la ficha de catálogo; buscá el artículo en Inventario para ver precio y existencias.':'Seleccioná el SKU de inventario correcto.';return}
+ el.innerHTML=`<strong>${safe(label(x))}</strong><div class="help">ID de stock: ${safe(x.id)}</div><div class="help">Cantidad física: ${Number(s?.quantity??0)} · Costo unitario: ${fmt((s?.cost_cents??0)/100)}</div><div class="help warn">${requiresFlavorConfirmation(x,p)?'SABOR SIN VERIFICAR: comprobá físicamente que el envase sea '+safe(flavorOf(p))+' antes de vincularlo. No lo trates como neutro por defecto.':'Compará ambas descripciones y confirmá sabor, fórmula, formato y gramaje.'} No se modificará el stock.</div>`;
+}
+$('stockChoice').onchange=()=>{const id=selectedId;const newSku=$('stockChoice').value;$('save').disabled=!id||isDirect(id)||!newSku||physicalId(id)===newSku;updateSaveLabel();updateStockDetails()};
+$('searchProducts').oninput=renderProducts;$('filter').onchange=renderProducts;$('searchStock').oninput=renderDetails;
+$('reload').onclick=load;
+$('save').onclick=async()=>{
+ const catalogId=selectedId,stockId=$('stockChoice').value;if(!catalogId||!stockId)return;
+ const p=catalog.find(x=>x.id===catalogId),s=inventory.find(x=>x.id===stockId),unknown=requiresFlavorConfirmation(s,p),confirmed=flavorOf(p);
+ if(unknown&&!confirmed){return message('La ficha comercial no tiene sabor confirmado. No se puede vincular.',true)}
+ const question=unknown
+  ?'El PDF dice «sabor por verificar». ¿Comprobaste FÍSICAMENTE el envase y confirmás que es '+confirmed.toUpperCase()+'?\n\nSe vinculará el SKU a '+label(p)+'; las otras variantes seguirán sin stock propio. No cambia cantidades ni costos.'
+  :'¿Confirmás que son el MISMO artículo, con igual marca, presentación y sabor?';
+ if(!confirm(question))return;
+ $('save').disabled=true;
+ try{
+   await api('/api/admin/stock-links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:unknown?'resolve-flavor':'link',catalog_id:catalogId,stock_id:stockId,...(unknown?{confirmed_flavor:confirmed}:{})})});
+   await load();message(unknown?'Sabor identificado y vínculo guardado. Las otras variantes siguen independientes.':'Vínculo guardado. No se alteraron unidades ni movimientos.');
+ }catch(e){message(e.message,true);renderDetails()}
+};
+$('unlink').onclick=async()=>{if(!selectedId||!confirm('¿Desvincular esta ficha del SKU físico? No se borrará el stock ni el historial.'))return;try{await api('/api/admin/stock-links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'unlink',catalog_id:selectedId})});await load();message('Vínculo quitado. El inventario sigue intacto.')}catch(e){message(e.message,true)}};
+load();
+</script></body></html>

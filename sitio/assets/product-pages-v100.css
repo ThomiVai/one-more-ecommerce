@@ -1,0 +1,47 @@
+/* Product pages — ONE MORE preproduction */
+.om-product-mode > :not(.om-product-page){display:none!important}
+.om-product-page{padding-top:32px;padding-bottom:72px;min-height:70vh}
+.om-product-breadcrumb{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:#a5afa4;margin-bottom:20px}
+.om-product-breadcrumb a{color:#c8d0c4;text-decoration:none}
+.om-back-link,.om-share-link{border:0;background:none;color:#b5f36a;font:inherit;cursor:pointer;padding:0;text-align:left}
+.om-back-link{font-size:13px;margin-bottom:28px}
+.om-product-layout{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(30px,5vw,72px);align-items:start}
+.om-product-gallery{min-width:0}
+.om-product-gallery .detail-hero-photo{width:100%;height:clamp(350px,40vw,580px);aspect-ratio:auto;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#fff}
+.om-product-gallery .detail-hero-photo img{width:100%;height:100%;object-fit:contain}
+.om-product-gallery .detail-hero-photo--nutrition{padding:16px}
+.om-product-tabs{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.om-product-tabs button{flex:1;min-width:120px;padding:14px 12px;line-height:1.3;font-size:11px}
+.om-label-link{display:inline-block;font-size:12px;margin-top:12px;color:#b5f36a}
+.om-product-buy h1{font-size:clamp(29px,3.3vw,46px);line-height:1.12;margin:12px 0 14px;letter-spacing:-.04em}
+.om-product-size{font-size:15px;color:#b9c1b5;margin:0 0 20px}
+.om-product-price{display:block;font-size:34px;letter-spacing:-.035em;margin-bottom:28px}
+.om-product-buy .flavor-selector{margin:24px 0;border:0;padding:0}
+.om-product-buy .flavor-options{display:flex;flex-wrap:wrap;gap:8px}
+.om-product-buy .flavor-option{font-size:13px;min-height:42px;padding:10px 14px}
+.om-buy-actions{display:flex;gap:12px;margin:26px 0}
+.om-product-quantity{display:flex;border:1px solid #3b4836;border-radius:6px;overflow:hidden;flex:0 0 120px}
+.om-product-quantity button,.om-product-quantity input{background:#172016;color:#f4f5f0;border:0;text-align:center;min-width:0}
+.om-product-quantity button{width:34px;font-size:20px;cursor:pointer}
+.om-product-quantity button:disabled{opacity:.35;cursor:default}
+.om-product-quantity input{width:44px;appearance:textfield;font-size:16px}
+.om-product-quantity input::-webkit-inner-spin-button{appearance:none}
+.om-page-add{flex:1;min-height:54px;font-size:13px}
+.om-product-delivery{border-top:1px solid #2b3528;border-bottom:1px solid #2b3528;padding:18px 0;margin-bottom:20px}
+.om-product-delivery p{font-size:13px;line-height:1.6;margin:0 0 6px}
+.om-product-delivery small,.om-share-status{color:#a5afa4;font-size:12px}
+.om-share-link{font-size:13px;margin-right:12px}
+.om-product-information{margin-top:48px;padding:28px 0;border-top:1px solid #2b3528;border-bottom:1px solid #2b3528}
+.om-product-information h2,.om-product-related h2{font-size:24px;margin:0 0 18px;letter-spacing:-.03em}
+.om-product-information p{max-width:75ch;color:#bac3b7;line-height:1.7;font-size:14px}
+.om-product-information .om-product-note{font-size:12px;color:#8e9b88}
+.om-product-related{margin-top:36px}
+.om-preproduction{font-size:11px;text-align:center;padding:7px 15px;background:#203013;color:#b5f36a;letter-spacing:.12em;border-bottom:1px solid #3c5127}
+.om-product-missing{padding:80px 0;min-height:50vh}
+@media(max-width:700px){.om-product-page{padding-top:20px;padding-bottom:100px}.om-product-layout{grid-template-columns:1fr;gap:26px}.om-product-gallery .detail-hero-photo{height:330px}.om-product-buy h1{font-size:32px}.om-product-price{font-size:30px;margin-bottom:20px}.om-buy-actions{gap:8px}.om-product-quantity{flex-basis:110px}.om-product-quantity input{width:42px}.om-product-quantity button{width:32px}.om-page-add{font-size:11px;padding:16px 10px}.om-product-breadcrumb{font-size:11px}.om-product-information{margin-top:30px}}
+
+.product-title-button{text-decoration:none;color:inherit}.product-image{display:block}.card-actions a.add{text-decoration:none;display:flex;justify-content:center;align-items:center;gap:8px;width:100%}
+
+.om-product-summary{color:#bec9b7;font-size:15px;line-height:1.6;margin:-8px 0 24px;max-width:46ch}.om-product-information strong{color:#edf2e8}
+
+.om-product-precautions{margin-top:22px;max-width:75ch;border-top:1px solid #2b3528;padding-top:16px}.om-product-precautions summary{cursor:pointer;color:#b8c4ad;font-size:13px}.om-product-precautions p{font-size:12px;line-height:1.6}

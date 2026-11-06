@@ -1,0 +1,24 @@
+{
+  "name": "one-more-ecommerce",
+  "version": "181.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.10.0"
+  },
+  "scripts": {
+    "test": "node --test --test-concurrency=1 tests/*.test.mjs",
+    "demo": "node tools/probar-local.mjs",
+    "test:browser": "node tests/inquiries-browser.mjs && node tests/checkout-no-phone-browser.mjs && node tests/partner-activity-browser.mjs && node tests/onboarding-browser.mjs",
+    "test:cloudflare": "node tests/cloudflare-local.mjs",
+    "test:onboarding": "node tests/onboarding-browser.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1",
+    "wrangler": "4.154.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261023.1": true
+  }
+}

@@ -1,0 +1,19 @@
+/* V177: contraste de categorías. Se mantienen las transiciones y el subrayado. */
+body #catalogo .categories.categories-v96{scroll-padding-inline:12px!important;padding-inline:4px!important;margin-inline:0!important;border-color:#bdc8b4!important}
+body #catalogo .categories.categories-v96 button{color:#30442a!important;-webkit-text-fill-color:#30442a!important;opacity:1!important;filter:none!important;background:transparent!important;white-space:nowrap!important;flex-shrink:0!important;min-height:44px!important;border-radius:8px!important;transition:background-color .2s ease,color .2s ease,transform .2s ease!important}
+body #catalogo .categories.categories-v96 button.active,
+body #catalogo .categories.categories-v96 button[aria-pressed="true"]{color:#172b13!important;-webkit-text-fill-color:#172b13!important;background:#b5ff63!important;font-weight:800!important}
+body #catalogo .categories.categories-v96 button:focus-visible{outline:3px solid #30442a!important;outline-offset:2px!important;background:#dce9cc!important;color:#172b13!important;-webkit-text-fill-color:#172b13!important}
+@media(hover:hover){body #catalogo .categories.categories-v96 button:hover{background:#dce9cc!important;color:#172b13!important;-webkit-text-fill-color:#172b13!important;transform:translateY(-2px)}body #catalogo .categories.categories-v96 button.active:hover{background:#b5ff63!important}}
+body #catalogo .categories.categories-v96 button::after{background:#30442a!important}
+body #catalogo .categories.categories-v96 button:active{background:#dce9cc!important;color:#172b13!important;-webkit-text-fill-color:#172b13!important}
+body #catalogo .catalog-sort-select{color:#172b13!important;background:#fff!important;min-height:44px!important;border:1px solid #a6b69b!important}
+.cart-sheet .om177-optional{border:1px solid #53664a;border-radius:10px;padding:12px;margin-block:14px;color:#f2f1e9}
+.cart-sheet .om177-optional>summary{cursor:pointer;color:#f2f1e9;min-height:24px;font-weight:650;line-height:1.5}
+.cart-sheet .om177-optional[open]>summary{margin-bottom:12px}
+.cart-sheet .shipping-result{color:#caff9a;background:#20331b;border:1px solid #5d7c45;border-radius:8px;padding:10px;line-height:1.5}
+.cart-sheet .om-review-panel{scroll-margin-top:16px}
+.cart-sheet #checkout-postal-code[aria-invalid="true"]{border-color:#ffb2a3;outline-color:#ffb2a3}
+.cart-sheet .message-preview>a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px;background:#b5ff63;color:#152711!important;border-radius:8px;font-weight:800}
+.cart-sheet .error{scroll-margin-block:24px}
+@media(prefers-reduced-motion:reduce){body #catalogo .categories.categories-v96 button{transition:none!important;transform:none!important}}

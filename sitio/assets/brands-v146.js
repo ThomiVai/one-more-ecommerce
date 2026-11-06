@@ -1,0 +1,35 @@
+// Las marcas salen del catálogo recibido; accesorios no es una marca.
+const known = [
+  ['STAR NUTRITION', 'STAR', 'NUTRITION'], ['ENA SPORT', 'ENA', 'SPORT'],
+  ['GENTECH', 'GENTECH', ''], ['BODY ADVANCE', 'BODY', 'ADVANCE'],
+  ['GOLD NUTRITION', 'GOLD', 'NUTRITION'], ['XTRENGHT', 'XTRENGHT', ''],
+  ['ULTRA TECH', 'ULTRA', 'TECH'],
+];
+export function catalogBrands(products) {
+  const names = new Set(products.map(p => String(p.brand || '').trim().toUpperCase())
+    .filter(b => b && !['ACCESORIOS','SIN MARCA','OTROS'].includes(b))
+    .map(b => b === 'ENA' ? 'ENA SPORT' : b));
+  return [...known.filter(([id]) => names.has(id)),
+    ...[...names].filter(id => !known.some(([key]) => key === id)).sort().map(id => [id,id,''])];
+}
+export function createBrands(React, products) {
+  const h = React.createElement;
+  const brands = catalogBrands(products);
+  return function Brands() {
+    const [paused, setPaused] = React.useState(false);
+    if (!brands.length) return null;
+    const group = duplicate => h('div', {
+      className:'om146-brand-group', key:String(duplicate), 'aria-hidden':duplicate ? true : undefined,
+    }, brands.map(([id, title, sub]) => h('b', {key:id, className:'om146-wordmark'},
+      title, sub && h('small',null,sub))));
+    return h('div', {className:'brands-intro om146-brands' + (paused ? ' is-paused' : ''),
+      role:'region', 'aria-label':'Marcas del catálogo'},
+      h('div',{className:'om146-brands-caption'},
+        h('span',null,'MARCAS QUE ENCONTRÁS EN ONE MORE'),
+        h('button',{type:'button',className:'om146-brands-pause','aria-pressed':paused,
+          'aria-label':paused?'Reanudar barra de marcas':'Pausar barra de marcas',
+          onClick:()=>setPaused(v=>!v)},paused?'▶':'Ⅱ')),
+      h('div',{className:'om146-brand-window'},
+        h('div',{className:'om146-brand-track'},group(false),group(true))));
+  };
+}

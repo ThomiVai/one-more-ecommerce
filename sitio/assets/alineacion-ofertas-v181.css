@@ -1,0 +1,6 @@
+/* V181: CTA al pie; conserva fotos, textos y animaciones de V180. */
+body .om144-home .om180-offer-track .star-offer{display:flex;flex-direction:column;height:100%;}
+body .om144-home .om180-offer-track .star-offer-photo{flex:none;}
+body .om144-home .om180-offer-track .star-offer-copy{display:flex;flex-direction:column;flex:1;}
+body .om144-home .om180-offer-track .star-save{margin-bottom:18px;}
+body .om144-home .om180-offer-track .star-offer-cta{margin-top:auto;}
